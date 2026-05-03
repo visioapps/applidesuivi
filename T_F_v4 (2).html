@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Mon appli de suivi</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,700;0,900;1,400;1,700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.383.0/umd/lucide.min.js"></script>
+<script>
+// Inline SVG icons — no CDN needed
+const ICONS = {
+  'credit-card': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>`,
+  'check-square': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`,
+  'bar-chart-2': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
+  'pencil': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
+  'trash-2': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`,
+};
+function icon(name) { return ICONS[name] || ''; }
+</script>
+
+<style>
+:root {
+  --T: #5b8fd4;
+  --T-light: #f0f4fb;
+  --T-mid: #d4e2f4;
+  --F: #d4607e;
+  --F-light: #fbf0f3;
+  --F-mid: #f0d0da;
+  --bg: #f5f3ee;
+  --surface: #ffffff;
+  --surface2: #f5f3ee;
+  --border: #e8e4dc;
+  --border2: #d8d3c8;
+  --text: #1a1814;
+  --muted: #9e9890;
+  --muted2: #c8c2b8;
+  --r: 22px;
+  --r-sm: 14px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { background: var(--bg); }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 430px;
+  margin: 0 auto;
+  padding-bottom: 96px;
+}
+
+/* ── LOGIN ── */
+.login-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 28px;
+  max-width: 430px;
+  margin: 0 auto;
+}
+
+.login-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 900;
+  font-size: 36px;
+  letter-spacing: -1.5px;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 6px;
+  line-height: 1.1;
+}
+.login-title em {
+  font-style: italic;
+  font-weight: 700;
+  color: var(--muted);
+  font-size: .65em;
+  display: block;
+  letter-spacing: -.5px;
+  margin-bottom: 4px;
+}
+
+.login-sub {
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.login-card {
+  width: 100%;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  padding: 24px 22px;
+}
+
+.login-field { margin-bottom: 14px; }
+.login-field label {
+  display: block;
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--muted); margin-bottom: 6px;
+}
+.login-field input {
+  width: 100%;
+  padding: 13px 15px;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px; color: var(--text);
+  outline: none;
+  transition: border-color .2s;
+  -webkit-appearance: none;
+}
+.login-field input:focus { border-color: var(--border2); }
+
+.login-btn {
+  width: 100%; padding: 14px;
+  border: none; border-radius: var(--r-sm);
+  background: var(--text); color: #fff;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px; font-weight: 700;
+  cursor: pointer; margin-top: 6px;
+  transition: opacity .15s;
+  letter-spacing: .2px;
+}
+.login-btn:hover { opacity: .85; }
+.login-btn:active { transform: scale(.98); }
+
+.login-error {
+  font-size: 13px; color: var(--F);
+  text-align: center; margin-top: 14px;
+  font-weight: 600; min-height: 20px;
+  animation: shake .3s;
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 32px 22px 0;
+}
+
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.hero-date {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 900;
+  font-size: clamp(36px, 10vw, 44px);
+  line-height: 1.0;
+  letter-spacing: -1.5px;
+  color: var(--text);
+}
+
+.hero-date .day-italic {
+  font-style: italic;
+  font-weight: 700;
+  color: var(--muted);
+  font-size: .62em;
+  display: block;
+  letter-spacing: -.5px;
+  line-height: 1.3;
+}
+
+.hero-date .month-year {
+  display: block;
+}
+
+.hero-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  margin-bottom: 24px;
+}
+
+.hnav-btn {
+  width: 36px; height: 36px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-size: 15px;
+  color: var(--text);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.hnav-btn:hover { background: var(--border); }
+
+.today-chip {
+  padding: 0 14px;
+  height: 36px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .3px;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex; align-items: center;
+  transition: all .15s;
+}
+.today-chip:hover { color: var(--text); }
+
+/* ── PERSON TOGGLE ── */
+.person-wrap { padding: 0 22px; margin-bottom: 18px; }
+
+.person-toggle {
+  display: flex;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  padding: 4px;
+  gap: 4px;
+}
+
+.person-btn {
+  flex: 1; padding: 11px;
+  border: none;
+  border-radius: 17px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .25s cubic-bezier(.34,1.5,.64,1);
+  background: transparent;
+  color: var(--muted);
+}
+.person-btn.activeT { background: var(--T); color: #fff; box-shadow: 0 4px 16px rgba(47,125,225,.25); }
+.person-btn.activeF { background: var(--F); color: #fff; box-shadow: 0 4px 16px rgba(232,71,122,.22); }
+
+/* ── INPUT CARD ── */
+.section { padding: 0 22px; }
+
+.input-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  padding: 18px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.personT .field input:focus { border-color: var(--T); background: #fff; }
+.personF .field input:focus { border-color: var(--F); background: #fff; }
+
+.field { margin-bottom: 12px; }
+.field label {
+  display: block;
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--muted); margin-bottom: 6px;
+}
+.field input {
+  width: 100%;
+  padding: 12px 15px;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px; color: var(--text);
+  outline: none;
+  transition: border-color .2s, background .2s;
+  -webkit-appearance: none;
+}
+.field input::placeholder { color: var(--muted2); }
+
+.add-btn {
+  width: 100%; padding: 14px;
+  border: none; border-radius: var(--r-sm);
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px; font-weight: 700;
+  cursor: pointer;
+  transition: all .18s;
+  letter-spacing: .2px;
+  color: #fff;
+}
+.add-btn:active { transform: scale(.97); }
+.add-btn-T { background: var(--T); box-shadow: 0 4px 18px rgba(91,143,212,.22); }
+.add-btn-F { background: var(--F); box-shadow: 0 4px 18px rgba(212,96,126,.18); }
+.add-btn:hover { filter: brightness(1.06); }
+
+/* ── ENTRIES ── */
+.entries-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 10px;
+}
+.entries-title {
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted);
+}
+.entries-count {
+  font-size: 11px; font-weight: 700; color: var(--muted);
+  background: var(--surface); border: 1.5px solid var(--border);
+  padding: 3px 9px; border-radius: 20px;
+}
+
+.entry {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 11px;
+  animation: popIn .2s cubic-bezier(.34,1.3,.64,1);
+  transition: border-color .15s;
+}
+.entry:hover { border-color: var(--border2); }
+@keyframes popIn {
+  from { opacity:0; transform: scale(.96) translateY(-4px); }
+  to   { opacity:1; transform: scale(1) translateY(0); }
+}
+
+.entry-pip { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.pipT { background: var(--T); }
+.pipF { background: var(--F); }
+
+.entry-body { flex:1; min-width:0; }
+.entry-main { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.entry-sub { font-size: 12px; color: var(--muted); margin-top: 1px; }
+
+.entry-amount {
+  font-family: 'Fraunces', serif;
+  font-size: 16px; font-weight: 700; flex-shrink: 0;
+}
+.amtT { color: var(--T); }
+.amtF { color: var(--F); }
+
+.entry-actions { display: flex; gap: 4px; }
+.act-btn {
+  width: 30px; height: 30px;
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  background: var(--surface2);
+  cursor: pointer; font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted);
+  transition: all .15s;
+}
+.act-btn svg { width: 14px; height: 14px; stroke-width: 2; pointer-events: none; }
+.act-btn:hover { background: var(--border); color: var(--text); }
+.act-btn.del:hover { background: #fff0f0; border-color: #ffd0d0; }
+
+.empty {
+  text-align: center; color: var(--muted2);
+  font-size: 14px; padding: 30px 0;
+  font-family: 'Fraunces', serif; font-style: italic;
+}
+
+/* ── STATS ── */
+.stats-wrap { padding: 0 22px; }
+
+.stat-view-toggle {
+  display: flex;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  padding: 4px; gap: 4px;
+  margin-bottom: 18px;
+}
+.sv-btn {
+  flex: 1; padding: 10px;
+  border: none; border-radius: 17px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer;
+  transition: all .22s cubic-bezier(.34,1.4,.64,1);
+  background: transparent; color: var(--muted);
+  letter-spacing: .2px;
+}
+.sv-btn.active { background: var(--text); color: #fff; }
+
+.stat-nav {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.stat-nav-label {
+  font-family: 'Fraunces', serif;
+  font-weight: 700; font-size: 22px;
+  letter-spacing: -.5px; color: var(--text);
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+.stat-card-label {
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--muted); margin-bottom: 14px;
+  display: flex; align-items: center; gap: 6px;
+}
+.stat-card-label svg { width: 13px; height: 13px; stroke-width: 2; }
+
+.stat-row {
+  display: flex; align-items: center;
+  gap: 10px; margin-bottom: 8px;
+}
+.stat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.stat-name { font-size: 14px; font-weight: 600; flex: 1; }
+.stat-val {
+  font-family: 'Fraunces', serif;
+  font-size: 16px; font-weight: 700;
+}
+.stat-pct { font-size: 12px; color: var(--muted); min-width: 36px; text-align: right; }
+
+.unified-bar {
+  height: 7px; border-radius: 4px;
+  overflow: hidden; display: flex;
+  background: var(--surface2);
+  margin-top: 12px;
+  border: 1px solid var(--border);
+}
+.bar-T { background: var(--T); height: 100%; transition: width .5s cubic-bezier(.34,1,.64,1); }
+.bar-F { background: var(--F); height: 100%; transition: width .5s cubic-bezier(.34,1,.64,1); }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 88px; left: 50%;
+  transform: translateX(-50%) translateY(14px);
+  background: var(--text);
+  color: #fff;
+  padding: 11px 20px;
+  border-radius: 40px;
+  font-size: 13px; font-weight: 600;
+  opacity: 0;
+  transition: all .28s cubic-bezier(.34,1.4,.64,1);
+  pointer-events: none; z-index: 999;
+  white-space: nowrap;
+  box-shadow: 0 6px 24px rgba(0,0,0,.15);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── EDIT OVERLAY ── */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(26,24,20,.4);
+  backdrop-filter: blur(4px);
+  z-index: 200; display: flex; align-items: flex-end;
+  animation: fadeIn .18s;
+}
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+.overlay-sheet {
+  background: var(--surface);
+  border-top: 1.5px solid var(--border);
+  border-radius: 24px 24px 0 0;
+  padding: 10px 22px 40px;
+  width: 100%;
+  animation: sheetUp .26s cubic-bezier(.34,1.2,.64,1);
+}
+@keyframes sheetUp { from { transform:translateY(36px); opacity:0; } to { transform:translateY(0); opacity:1; } }
+
+.sheet-handle {
+  width: 36px; height: 4px;
+  background: var(--border2);
+  border-radius: 2px; margin: 0 auto 22px;
+}
+.overlay-title {
+  font-family: 'Fraunces', serif;
+  font-size: 24px; font-weight: 700;
+  letter-spacing: -.5px; margin-bottom: 18px;
+}
+.overlay-field { margin-bottom: 12px; }
+.overlay-field label {
+  display: block;
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--muted); margin-bottom: 6px;
+}
+.overlay-field input {
+  width: 100%; padding: 13px 15px;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px; color: var(--text); outline: none;
+}
+.overlay-field input:focus { border-color: var(--border2); }
+.overlay-btns { display: flex; gap: 10px; margin-top: 18px; }
+.ov-cancel {
+  flex: 1; padding: 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-sm);
+  background: transparent; color: var(--muted);
+  font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: all .15s;
+}
+.ov-cancel:hover { color: var(--text); border-color: var(--border2); }
+.ov-save {
+  flex: 2; padding: 14px; border: none;
+  border-radius: var(--r-sm);
+  background: var(--text); color: #fff;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px; font-weight: 700; cursor: pointer;
+  transition: opacity .15s;
+}
+.ov-save:hover { opacity: .85; }
+
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 100%; max-width: 430px;
+  background: rgba(245,243,238,.94);
+  backdrop-filter: blur(14px);
+  border-top: 1.5px solid var(--border);
+  display: flex; padding: 8px 16px 20px; gap: 4px;
+  z-index: 100;
+}
+.tab-btn {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 4px; padding: 8px 4px;
+  border: none; background: transparent;
+  border-radius: 14px; cursor: pointer;
+  transition: all .2s; color: var(--muted);
+  font-family: 'Nunito', sans-serif;
+}
+.tab-btn .icon { font-size: 20px; transition: transform .2s; display: flex; align-items: center; justify-content: center; }
+.tab-btn .icon svg { width: 20px; height: 20px; stroke-width: 1.8; }
+.tab-btn .lbl { font-size: 10px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; }
+.tab-btn.active { color: var(--text); }
+.tab-btn.active .icon { transform: scale(1.15); }
+</style>
+</head>
+<body>
+
+<div id="login-wrap" style="display:none">
+  <div class="login-screen">
+    <div class="login-title">
+      <em>Bienvenue</em>
+      Mon appli<br>de suivi
+    </div>
+    <div class="login-sub">Connecte-toi pour continuer</div>
+    <div class="login-card">
+      <div class="login-field">
+        <label>Prénom</label>
+        <input id="lu" type="text" placeholder="Ton prénom" autocomplete="username" autocapitalize="words">
+      </div>
+      <div class="login-field">
+        <label>Mot de passe</label>
+        <input id="lp" type="password" placeholder="••••" autocomplete="current-password"
+          onkeydown="if(event.key==='Enter')tryLogin()">
+      </div>
+      <button class="login-btn" onclick="tryLogin()">Se connecter</button>
+      <div class="login-error" id="login-err"></div>
+    </div>
+  </div>
+</div>
+
+<div id="app" class="app" style="display:none"></div>
+<div class="toast" id="toast"></div>
+
+<nav class="bottom-nav" style="display:none">
+  <button class="tab-btn" id="nt-dep" onclick="tab('dep')">
+    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span>
+    <span class="lbl">Dépenses</span>
+  </button>
+  <button class="tab-btn" id="nt-tac" onclick="tab('tac')">
+    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+    <span class="lbl">Tâches</span>
+  </button>
+  <button class="tab-btn" id="nt-stats" onclick="tab('stats')">
+    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+    <span class="lbl">Stats</span>
+  </button>
+</nav>
+
+<script>
+// ── AUTH ──
+const USERS = { 'Fato': '0401' };
+
+let loggedIn = sessionStorage.getItem('auth') === 'ok';
+
+function tryLogin() {
+  const u = document.getElementById('lu').value.trim();
+  const p = document.getElementById('lp').value;
+  if (USERS[u] && USERS[u] === p) {
+    sessionStorage.setItem('auth', 'ok');
+    loggedIn = true;
+    document.getElementById('login-wrap').style.display = 'none';
+    document.getElementById('app').style.display = '';
+    document.querySelector('.bottom-nav').style.display = '';
+    render();
+  } else {
+    const err = document.getElementById('login-err');
+    err.textContent = 'Identifiant ou mot de passe incorrect';
+    err.style.animation = 'none';
+    requestAnimationFrame(() => err.style.animation = '');
+    document.getElementById('lp').value = '';
+    document.getElementById('lp').focus();
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem('auth');
+  loggedIn = false;
+  document.getElementById('login-wrap').style.display = '';
+  document.getElementById('app').style.display = 'none';
+  document.querySelector('.bottom-nav').style.display = 'none';
+  document.getElementById('lu').value = '';
+  document.getElementById('lp').value = '';
+  document.getElementById('login-err').textContent = '';
+}
+
+// ── APP STATE ──
+let current = 'dep';
+let currentPerson = 'F';
+let selectedDate = today();
+let selectedMonth = today().slice(0, 7);
+let statView = 'day';
+let editingId = null;
+
+function get() { return JSON.parse(localStorage.getItem('db')) || []; }
+function save(d) { localStorage.setItem('db', JSON.stringify(d)); }
+function today() { return new Date().toISOString().slice(0, 10); }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function tab(t) { current = t; render(); }
+function selectPerson(p) { currentPerson = p; render(); }
+function setStatView(v) { statView = v; render(); }
+
+function add(type) {
+  const v = document.getElementById('v')?.value?.trim();
+  const m = document.getElementById('m')?.value?.trim() || '';
+  if (!v) { showToast('⚠ Remplis le champ'); return; }
+  const d = get();
+  d.push({ id: Date.now(), type, p: currentPerson, v: type === 'dep' ? parseFloat(v) : v, m, date: selectedDate });
+  save(d);
+  document.getElementById('v').value = '';
+  if (document.getElementById('m')) document.getElementById('m').value = '';
+  showToast(type === 'dep' ? 'Dépense ajoutée' : 'Tâche ajoutée');
+  render();
+}
+
+function del(id) {
+  // Show inline confirmation overlay instead of confirm()
+  const existing = document.getElementById('edit-overlay');
+  if (existing) existing.remove();
+  const ov = document.createElement('div');
+  ov.className = 'overlay';
+  ov.id = 'edit-overlay';
+  ov.innerHTML = `
+  <div class="overlay-sheet">
+    <div class="sheet-handle"></div>
+    <div class="overlay-title">Supprimer ?</div>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:20px">Cette entrée sera supprimée définitivement.</p>
+    <div class="overlay-btns">
+      <button class="ov-cancel" onclick="closeEdit()">Annuler</button>
+      <button class="ov-save" style="background:#c0392b" onclick="confirmDel(${id})">Supprimer</button>
+    </div>
+  </div>`;
+  ov.addEventListener('click', e => { if (e.target === ov) closeEdit(); });
+  document.body.appendChild(ov);
+}
+
+function confirmDel(id) {
+  save(get().filter(x => x.id !== id));
+  closeEdit();
+  showToast('Supprimé');
+  render();
+}
+function openEdit(id) { editingId = id; renderOverlay(); }
+
+function closeEdit() {
+  editingId = null;
+  const ov = document.getElementById('edit-overlay');
+  if (ov) ov.remove();
+}
+
+function saveEdit() {
+  const d = get();
+  const item = d.find(x => x.id === editingId);
+  const v = document.getElementById('ev')?.value?.trim();
+  const m = document.getElementById('em')?.value?.trim() || '';
+  if (!v) return;
+  if (item.type === 'dep') { item.v = parseFloat(v); item.m = m; }
+  else { item.v = v; }
+  save(d);
+  closeEdit();
+  showToast('Modifié ✓');
+  render();
+}
+
+function renderOverlay() {
+  const existing = document.getElementById('edit-overlay');
+  if (existing) existing.remove();
+  if (!editingId) return;
+  const db = get();
+  const item = db.find(x => x.id === editingId);
+  if (!item) return;
+  const ov = document.createElement('div');
+  ov.className = 'overlay';
+  ov.id = 'edit-overlay';
+  ov.innerHTML = `
+  <div class="overlay-sheet">
+    <div class="sheet-handle"></div>
+    <div class="overlay-title">Modifier</div>
+    ${item.type === 'dep' ? `
+      <div class="overlay-field"><label>Montant (€)</label><input id="ev" type="number" value="${item.v}" step="0.01"></div>
+      <div class="overlay-field"><label>Motif</label><input id="em" value="${item.m}"></div>
+    ` : `
+      <div class="overlay-field"><label>Tâche</label><input id="ev" value="${item.v}"></div>
+    `}
+    <div class="overlay-btns">
+      <button class="ov-cancel" onclick="closeEdit()">Annuler</button>
+      <button class="ov-save" onclick="saveEdit()">Enregistrer</button>
+    </div>
+  </div>`;
+  ov.addEventListener('click', e => { if (e.target === ov) closeEdit(); });
+  document.body.appendChild(ov);
+  setTimeout(() => document.getElementById('ev')?.focus(), 80);
+}
+
+function changeDay(offset) {
+  const d = new Date(selectedDate);
+  d.setDate(d.getDate() + offset);
+  selectedDate = d.toISOString().slice(0, 10);
+  render();
+}
+function changeMonth(offset) {
+  const d = new Date(selectedMonth + '-01');
+  d.setMonth(d.getMonth() + offset);
+  selectedMonth = d.toISOString().slice(0, 7);
+  render();
+}
+function goToday() { selectedDate = today(); render(); }
+
+// ── Formatage des dates ──
+function parseLocal(s) { return new Date(s + 'T12:00:00'); }
+
+function heroDate(s) {
+  const d = parseLocal(s);
+  const day = d.toLocaleDateString('fr-FR', { weekday: 'long' });
+  const num = d.getDate();
+  const month = d.toLocaleDateString('fr-FR', { month: 'long' });
+  const year = d.getFullYear();
+  const cap = str => str.charAt(0).toUpperCase() + str.slice(1);
+  return { day: cap(day), num, month: cap(month), year };
+}
+
+function heroMonth(s) {
+  const d = new Date(s + '-01T12:00:00');
+  const month = d.toLocaleDateString('fr-FR', { month: 'long' });
+  const year = d.getFullYear();
+  return `${month.charAt(0).toUpperCase() + month.slice(1)} ${year}`;
+}
+
+function fullDayLabel(s) {
+  const { day, num, month } = heroDate(s);
+  return `${day} ${num} ${month}`;
+}
+
+function isToday(s) { return s === today(); }
+
+// ── HTML helpers ──
+function entryHTML(item) {
+  const isT = item.p === 'T';
+  return `
+  <div class="entry">
+    <div class="entry-pip ${isT ? 'pipT' : 'pipF'}"></div>
+    <div class="entry-body">
+      <div class="entry-main">${item.type === 'dep' ? (item.m || 'Sans motif') : item.v}</div>
+      <div class="entry-sub">${isT ? 'T' : 'F'} · ${item.date}</div>
+    </div>
+    ${item.type === 'dep' ? `<div class="entry-amount ${isT ? 'amtT' : 'amtF'}">${item.v.toFixed(2)} €</div>` : ''}
+    <div class="entry-actions">
+      <button class="act-btn" onclick="openEdit(${item.id})">${icon('pencil')}</button>
+      <button class="act-btn del" onclick="del(${item.id})">${icon('trash-2')}</button>
+    </div>
+  </div>`;
+}
+
+function statCardHTML(data, type) {
+  let T = 0, F = 0;
+  data.filter(x => x.type === type).forEach(x => {
+    x.p === 'T' ? (type === 'dep' ? T += x.v : T++) : (type === 'dep' ? F += x.v : F++);
+  });
+  const total = T + F || 1;
+  const pT = Math.round(T / total * 100);
+  const pF = 100 - pT;
+  const fmt = v => type === 'dep' ? `${v.toFixed(2)} €` : `${v}`;
+  const icon_svg = type === 'dep' ? icon('credit-card') : icon('check-square');
+  const label = type === 'dep' ? 'Dépenses' : 'Tâches';
+
+  return `
+  <div class="stat-card">
+    <div class="stat-card-label">${icon_svg} ${label}</div>
+    <div class="stat-row">
+      <div class="stat-dot" style="background:var(--T)"></div>
+      <div class="stat-name" style="color:var(--T)">T</div>
+      <div class="stat-val" style="color:var(--T)">${fmt(T)}</div>
+      <div class="stat-pct">${pT}%</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-dot" style="background:var(--F)"></div>
+      <div class="stat-name" style="color:var(--F)">F</div>
+      <div class="stat-val" style="color:var(--F)">${fmt(F)}</div>
+      <div class="stat-pct">${pF}%</div>
+    </div>
+    <div class="unified-bar">
+      <div class="bar-T" style="width:${pT}%"></div>
+      <div class="bar-F" style="width:${pF}%"></div>
+    </div>
+  </div>`;
+}
+
+function render() {
+  ['dep','tac','stats'].forEach(t => document.getElementById('nt-'+t)?.classList.remove('active'));
+  document.getElementById('nt-' + current)?.classList.add('active');
+
+  const db = get();
+  const { day, num, month } = heroDate(selectedDate);
+
+  let html = '';
+
+  // ── HERO ──
+  const tabLabel = current === 'dep' ? 'Dépenses' : current === 'tac' ? 'Tâches' : 'Statistiques';
+  html += `
+  <div class="hero">
+    <div class="hero-eyebrow" style="display:flex;justify-content:space-between;align-items:center">
+      <span>Mon appli de suivi · ${tabLabel}</span>
+      <button onclick="logout()" style="background:none;border:none;cursor:pointer;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.5px;font-family:'Nunito',sans-serif">Déconnexion</button>
+    </div>
+    <div class="hero-date">
+      <span class="day-italic">${day}</span>
+      <span class="month-year">${num} ${month}</span>
+    </div>
+    <div class="hero-nav">
+      <button class="hnav-btn" onclick="changeDay(-1)">←</button>
+      <button class="hnav-btn" onclick="changeDay(1)">→</button>
+      ${!isToday(selectedDate) ? `<button class="today-chip" onclick="goToday()">Aujourd'hui</button>` : ''}
+    </div>
+  </div>`;
+
+  // ── DEP / TAC ──
+  if (current !== 'stats') {
+    html += `
+    <div class="person-wrap">
+      <div class="person-toggle">
+        <button class="person-btn ${currentPerson==='T'?'activeT':''}" onclick="selectPerson('T')">T</button>
+        <button class="person-btn ${currentPerson==='F'?'activeF':''}" onclick="selectPerson('F')">F</button>
+      </div>
+    </div>
+    <div class="section">
+      <div class="input-card">`;
+
+    if (current === 'dep') {
+      html += `
+        <div class="field"><label>Montant (€)</label><input id="v" type="number" placeholder="0.00" step="0.01" min="0" inputmode="decimal"></div>
+        <div class="field"><label>Motif</label><input id="m" placeholder="Courses, restaurant…"></div>`;
+    } else {
+      html += `<div class="field"><label>Tâche</label><input id="v" placeholder="Cuisine, lessive…"></div>`;
+    }
+    html += `<button class="add-btn add-btn-${currentPerson}" onclick="add('${current}')">+ Ajouter</button></div>`;
+
+    const entries = db.filter(x => x.date === selectedDate && x.type === current).sort((a,b) => b.id - a.id);
+    html += `
+      <div class="entries-header">
+        <div class="entries-title">Ce jour</div>
+        <div class="entries-count">${entries.length}</div>
+      </div>`;
+    if (entries.length === 0) {
+      html += `<div class="empty">Rien pour ce jour</div>`;
+    } else {
+      entries.forEach(e => html += entryHTML(e));
+    }
+    html += `</div>`;
+  }
+
+  // ── STATS ──
+  if (current === 'stats') {
+    const isDay = statView === 'day';
+    const data = isDay
+      ? db.filter(x => x.date === selectedDate)
+      : db.filter(x => x.date.startsWith(selectedMonth));
+
+    html += `
+    <div class="stats-wrap">
+      <div class="stat-view-toggle">
+        <button class="sv-btn ${isDay ? 'active' : ''}" onclick="setStatView('day')">Jour</button>
+        <button class="sv-btn ${!isDay ? 'active' : ''}" onclick="setStatView('month')">Mois</button>
+      </div>
+
+      <div class="stat-nav">
+        <button class="hnav-btn" onclick="${isDay ? 'changeDay(-1)' : 'changeMonth(-1)'}">←</button>
+        <div class="stat-nav-label">${isDay ? fullDayLabel(selectedDate) : heroMonth(selectedMonth)}</div>
+        <button class="hnav-btn" onclick="${isDay ? 'changeDay(1)' : 'changeMonth(1)'}">→</button>
+      </div>
+
+      ${statCardHTML(data, 'dep')}
+      ${statCardHTML(data, 'tac')}
+    </div>`;
+  }
+
+  document.getElementById('app').innerHTML = html;
+  setTimeout(() => document.getElementById('v')?.focus(), 80);
+}
+
+// ── INIT ──
+if (loggedIn) {
+  document.getElementById('login-wrap').style.display = 'none';
+  document.getElementById('app').style.display = '';
+  document.querySelector('.bottom-nav').style.display = '';
+  render();
+} else {
+  document.getElementById('login-wrap').style.display = '';
+  setTimeout(() => document.getElementById('lu')?.focus(), 100);
+}
+</script>
+</body>
+</html>
