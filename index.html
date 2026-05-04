@@ -5,19 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Mon appli de suivi</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,700;0,900;1,400;1,700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.383.0/umd/lucide.min.js"></script>
 <script>
-// Inline SVG icons — no CDN needed
 const ICONS = {
-  'credit-card': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>`,
-  'check-square': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`,
-  'bar-chart-2': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
-  'pencil': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
-  'trash-2': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`,
+  'credit-card': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>`,
+  'check-square': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`,
+  'bar-chart-2': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
+  'pencil': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
+  'trash-2': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`,
 };
 function icon(name) { return ICONS[name] || ''; }
 </script>
- 
 <style>
 :root {
   --T: #5b8fd4;
@@ -36,658 +33,454 @@ function icon(name) { return ICONS[name] || ''; }
   --muted2: #c8c2b8;
   --r: 22px;
   --r-sm: 14px;
+  --top-nav-h: 56px;
 }
- 
+
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html { background: var(--bg); }
- 
+html, body { height: 100%; height: 100dvh; background: var(--bg); overflow: hidden; }
+
 body {
   font-family: 'Nunito', sans-serif;
-  background: var(--bg);
   color: var(--text);
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
 }
- 
-.app {
-  max-width: 430px;
-  margin: 0 auto;
-  padding-bottom: 96px;
-}
- 
+
 /* ── LOGIN ── */
 .login-screen {
-  min-height: 100vh;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 32px 28px;
   max-width: 430px;
+  width: 100%;
   margin: 0 auto;
 }
- 
 .login-title {
   font-family: 'Fraunces', Georgia, serif;
-  font-weight: 900;
-  font-size: 36px;
-  letter-spacing: -1.5px;
-  color: var(--text);
-  text-align: center;
-  margin-bottom: 6px;
-  line-height: 1.1;
+  font-weight: 900; font-size: 36px;
+  letter-spacing: -1.5px; color: var(--text);
+  text-align: center; margin-bottom: 6px; line-height: 1.1;
 }
 .login-title em {
-  font-style: italic;
-  font-weight: 700;
-  color: var(--muted);
-  font-size: .65em;
-  display: block;
-  letter-spacing: -.5px;
-  margin-bottom: 4px;
+  font-style: italic; font-weight: 700;
+  color: var(--muted); font-size: .65em;
+  display: block; letter-spacing: -.5px; margin-bottom: 4px;
 }
- 
-.login-sub {
-  font-size: 13px;
-  color: var(--muted);
-  text-align: center;
-  margin-bottom: 40px;
-}
- 
+.login-sub { font-size: 13px; color: var(--muted); text-align: center; margin-bottom: 40px; }
 .login-card {
-  width: 100%;
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: var(--r);
-  padding: 24px 22px;
+  width: 100%; background: var(--surface);
+  border: 1.5px solid var(--border); border-radius: var(--r); padding: 24px 22px;
 }
- 
 .login-field { margin-bottom: 14px; }
 .login-field label {
-  display: block;
-  font-size: 10px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 1.5px;
-  color: var(--muted); margin-bottom: 6px;
+  display: block; font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 6px;
 }
 .login-field input {
-  width: 100%;
-  padding: 13px 15px;
-  background: var(--surface2);
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-sm);
-  font-family: 'Nunito', sans-serif;
-  font-size: 15px; color: var(--text);
-  outline: none;
-  transition: border-color .2s;
-  -webkit-appearance: none;
+  width: 100%; padding: 13px 15px;
+  background: var(--surface2); border: 1.5px solid var(--border);
+  border-radius: var(--r-sm); font-family: 'Nunito', sans-serif;
+  font-size: 15px; color: var(--text); outline: none; transition: border-color .2s; -webkit-appearance: none;
 }
 .login-field input:focus { border-color: var(--border2); }
- 
 .login-btn {
-  width: 100%; padding: 14px;
-  border: none; border-radius: var(--r-sm);
-  background: var(--text); color: #fff;
-  font-family: 'Nunito', sans-serif;
-  font-size: 15px; font-weight: 700;
-  cursor: pointer; margin-top: 6px;
-  transition: opacity .15s;
-  letter-spacing: .2px;
+  width: 100%; padding: 14px; border: none; border-radius: var(--r-sm);
+  background: var(--text); color: #fff; font-family: 'Nunito', sans-serif;
+  font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 6px; transition: opacity .15s;
 }
 .login-btn:hover { opacity: .85; }
-.login-btn:active { transform: scale(.98); }
- 
 .login-error {
-  font-size: 13px; color: var(--F);
-  text-align: center; margin-top: 14px;
-  font-weight: 600; min-height: 20px;
-  animation: shake .3s;
+  font-size: 13px; color: var(--F); text-align: center;
+  margin-top: 14px; font-weight: 600; min-height: 20px;
 }
-@keyframes shake {
-  0%,100% { transform: translateX(0); }
-  25% { transform: translateX(-6px); }
-  75% { transform: translateX(6px); }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+
+/* ── TOP NAV ── */
+.top-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--top-nav-h);
+  background: rgba(245,243,238,.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1.5px solid var(--border);
+  display: flex; align-items: stretch;
+  max-width: 430px; margin: 0 auto;
+  /* full width trick */
+  width: 100%;
 }
- 
-/* ── HERO ── */
-.hero {
-  padding: 32px 22px 0;
+/* fix for centering on wide screens */
+@media (min-width: 430px) {
+  .top-nav { left: 50%; transform: translateX(-50%); right: auto; width: 430px; }
 }
- 
-.hero-eyebrow {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 8px;
+
+.tab-btn {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 2px;
+  border: none; background: transparent;
+  cursor: pointer; transition: all .18s; color: var(--muted);
+  font-family: 'Nunito', sans-serif;
+  border-bottom: 2.5px solid transparent;
+  padding-bottom: 2px;
 }
- 
-.hero-date {
-  font-family: 'Fraunces', Georgia, serif;
-  font-weight: 900;
-  font-size: clamp(36px, 10vw, 44px);
-  line-height: 1.0;
-  letter-spacing: -1.5px;
-  color: var(--text);
-}
- 
-.hero-date .day-italic {
-  font-style: italic;
-  font-weight: 700;
-  color: var(--muted);
-  font-size: .62em;
-  display: block;
-  letter-spacing: -.5px;
-  line-height: 1.3;
-}
- 
-.hero-date .month-year {
-  display: block;
-}
- 
-.hero-nav {
+.tab-btn .icon { display: flex; align-items: center; }
+.tab-btn .icon svg { width: 19px; height: 19px; pointer-events: none; }
+.tab-btn .lbl { font-size: 10px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; }
+.tab-btn.active { color: var(--text); border-bottom-color: var(--text); }
+
+/* ── MAIN LAYOUT ── */
+.main-wrap {
+  flex: 1;
   display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 16px;
-  margin-bottom: 24px;
+  flex-direction: column;
+  margin-top: var(--top-nav-h);
+  overflow: hidden;
+  max-width: 430px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 0;
 }
- 
+
+/* ── DATE STRIP ── */
+.date-strip {
+  display: flex; align-items: center;
+  padding: 10px 16px 8px;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.date-strip-label {
+  flex: 1;
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 700; font-size: 20px;
+  letter-spacing: -.5px; color: var(--text);
+  line-height: 1.1;
+}
+.date-strip-label span {
+  font-style: italic; font-weight: 400;
+  color: var(--muted); font-size: .78em;
+  margin-right: 4px;
+}
 .hnav-btn {
-  width: 36px; height: 36px;
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  font-size: 15px;
-  color: var(--text);
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all .15s;
+  width: 32px; height: 32px;
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 9px; font-size: 14px; color: var(--text);
+  cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .15s;
+  flex-shrink: 0;
 }
 .hnav-btn:hover { background: var(--border); }
- 
 .today-chip {
-  padding: 0 14px;
-  height: 36px;
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  font-family: 'Nunito', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .3px;
-  color: var(--muted);
-  cursor: pointer;
-  display: flex; align-items: center;
-  transition: all .15s;
+  padding: 0 10px; height: 32px;
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 9px; font-family: 'Nunito', sans-serif;
+  font-size: 11px; font-weight: 700; color: var(--muted);
+  cursor: pointer; display: flex; align-items: center; transition: all .15s;
+  flex-shrink: 0;
 }
 .today-chip:hover { color: var(--text); }
- 
+.logout-btn {
+  background: none; border: none; cursor: pointer;
+  font-size: 10px; font-weight: 700; color: var(--muted2);
+  letter-spacing: .5px; font-family: 'Nunito', sans-serif;
+  flex-shrink: 0;
+}
+
+/* ── SCROLLABLE CONTENT (below form) ── */
+.scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 16px 24px;
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+}
+
+/* ── FORM FOOTER (at top of content, below date strip) ── */
+.form-footer {
+  flex-shrink: 0;
+  background: var(--bg);
+  border-bottom: 1.5px solid var(--border);
+  padding: 10px 16px 12px;
+}
+
+.form-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  padding: 14px 14px 14px;
+  margin-top: 0;
+}
+
 /* ── PERSON TOGGLE ── */
-.person-wrap { padding: 0 22px; margin-bottom: 18px; }
- 
 .person-toggle {
-  display: flex;
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: var(--r);
-  padding: 4px;
-  gap: 4px;
+  display: flex; background: var(--surface2);
+  border: 1.5px solid var(--border); border-radius: var(--r);
+  padding: 3px; gap: 3px; margin-bottom: 10px;
 }
- 
 .person-btn {
-  flex: 1; padding: 11px;
-  border: none;
-  border-radius: 17px;
-  font-family: 'Nunito', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .25s cubic-bezier(.34,1.5,.64,1);
-  background: transparent;
-  color: var(--muted);
+  flex: 1; padding: 9px; border: none; border-radius: 17px;
+  font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: all .22s cubic-bezier(.34,1.5,.64,1);
+  background: transparent; color: var(--muted);
 }
-.person-btn.activeT { background: var(--T); color: #fff; box-shadow: 0 4px 16px rgba(47,125,225,.25); }
-.person-btn.activeF { background: var(--F); color: #fff; box-shadow: 0 4px 16px rgba(232,71,122,.22); }
- 
-/* ── INPUT CARD ── */
-.section { padding: 0 22px; }
- 
-.input-card {
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: var(--r);
-  padding: 18px;
-  margin-bottom: 20px;
-  position: relative;
-  overflow: hidden;
+.person-btn.activeT { background: var(--T); color: #fff; box-shadow: 0 3px 12px rgba(91,143,212,.28); }
+.person-btn.activeF { background: var(--F); color: #fff; box-shadow: 0 3px 12px rgba(212,96,126,.24); }
+
+/* ── INLINE FORM ── */
+.form-row { display: flex; gap: 8px; align-items: flex-start; }
+.form-field { flex: 1; }
+.form-field label {
+  display: block; font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.2px; color: var(--muted); margin-bottom: 5px;
 }
- 
-.personT .field input:focus { border-color: var(--T); background: #fff; }
-.personF .field input:focus { border-color: var(--F); background: #fff; }
- 
-.field { margin-bottom: 12px; }
-.field label {
-  display: block;
-  font-size: 10px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 1.5px;
-  color: var(--muted); margin-bottom: 6px;
+.form-field input {
+  width: 100%; padding: 10px 12px;
+  background: var(--surface2); border: 1.5px solid var(--border);
+  border-radius: var(--r-sm); font-family: 'Nunito', sans-serif;
+  font-size: 15px; color: var(--text); outline: none; transition: border-color .2s; -webkit-appearance: none;
 }
-.field input {
-  width: 100%;
-  padding: 12px 15px;
-  background: var(--surface2);
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-sm);
-  font-family: 'Nunito', sans-serif;
-  font-size: 15px; color: var(--text);
-  outline: none;
-  transition: border-color .2s, background .2s;
-  -webkit-appearance: none;
-}
-.field input::placeholder { color: var(--muted2); }
- 
+.form-field input::placeholder { color: var(--muted2); }
+.form-field input:focus { border-color: var(--border2); }
+
 .add-btn {
-  width: 100%; padding: 14px;
-  border: none; border-radius: var(--r-sm);
-  font-family: 'Nunito', sans-serif;
-  font-size: 15px; font-weight: 700;
-  cursor: pointer;
-  transition: all .18s;
-  letter-spacing: .2px;
-  color: #fff;
+  padding: 11px 16px; border: none; border-radius: var(--r-sm);
+  font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: all .18s; color: #fff; white-space: nowrap; flex-shrink: 0;
 }
-.add-btn:active { transform: scale(.97); }
-.add-btn-T { background: var(--T); box-shadow: 0 4px 18px rgba(91,143,212,.22); }
-.add-btn-F { background: var(--F); box-shadow: 0 4px 18px rgba(212,96,126,.18); }
-.add-btn:hover { filter: brightness(1.06); }
- 
+.add-btn:active { transform: scale(.96); }
+.add-btn-T { background: var(--T); box-shadow: 0 3px 14px rgba(91,143,212,.22); }
+.add-btn-F { background: var(--F); box-shadow: 0 3px 14px rgba(212,96,126,.18); }
+
+.add-btn-rec-open {
+  padding: 11px 13px; border: 1.5px solid var(--border);
+  border-radius: var(--r-sm); background: var(--surface2);
+  font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
+  color: var(--muted); cursor: pointer; transition: all .15s; white-space: nowrap; flex-shrink: 0;
+}
+.add-btn-rec-open:hover { border-color: var(--border2); color: var(--text); }
+
 /* ── ENTRIES ── */
 .entries-header {
   display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 10px;
+  margin: 14px 0 8px;
 }
-.entries-title {
-  font-size: 10px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted);
-}
+.entries-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); }
 .entries-count {
   font-size: 11px; font-weight: 700; color: var(--muted);
-  background: var(--surface); border: 1.5px solid var(--border);
-  padding: 3px 9px; border-radius: 20px;
+  background: var(--surface); border: 1.5px solid var(--border); padding: 2px 8px; border-radius: 20px;
 }
- 
+
 .entry {
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-sm);
-  padding: 12px 14px;
-  margin-bottom: 8px;
-  display: flex; align-items: center; gap: 11px;
-  animation: popIn .2s cubic-bezier(.34,1.3,.64,1);
-  transition: border-color .15s;
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--r-sm); padding: 11px 13px;
+  margin-bottom: 7px; display: flex; align-items: center; gap: 10px;
+  animation: popIn .18s cubic-bezier(.34,1.3,.64,1);
 }
 .entry:hover { border-color: var(--border2); }
-@keyframes popIn {
-  from { opacity:0; transform: scale(.96) translateY(-4px); }
-  to   { opacity:1; transform: scale(1) translateY(0); }
-}
- 
+.entry-rec { border-style: dashed; }
+@keyframes popIn { from{opacity:0;transform:scale(.96) translateY(-4px)} to{opacity:1;transform:scale(1) translateY(0)} }
+
 .entry-pip { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .pipT { background: var(--T); }
 .pipF { background: var(--F); }
- 
-.entry-body { flex:1; min-width:0; }
+
+.entry-body { flex: 1; min-width: 0; }
 .entry-main { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.entry-sub { font-size: 12px; color: var(--muted); margin-top: 1px; }
- 
-.entry-amount {
-  font-family: 'Fraunces', serif;
-  font-size: 16px; font-weight: 700; flex-shrink: 0;
-}
-.amtT { color: var(--T); }
-.amtF { color: var(--F); }
- 
+.entry-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.rec-badge { display: inline-flex; align-items: center; margin-left: 4px; color: var(--muted); vertical-align: middle; }
+
+.entry-amount { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 700; flex-shrink: 0; }
+.amtT { color: var(--T); } .amtF { color: var(--F); }
+
 .entry-actions { display: flex; gap: 4px; }
 .act-btn {
-  width: 30px; height: 30px;
-  border: 1.5px solid var(--border);
-  border-radius: 9px;
-  background: var(--surface2);
-  cursor: pointer; font-size: 12px;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--muted);
-  transition: all .15s;
+  width: 30px; height: 30px; border: 1.5px solid var(--border);
+  border-radius: 9px; background: var(--surface2); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; color: var(--muted); transition: all .15s;
 }
-.act-btn svg { width: 14px; height: 14px; stroke-width: 2; pointer-events: none; }
+.act-btn svg { width: 13px; height: 13px; pointer-events: none; }
 .act-btn:hover { background: var(--border); color: var(--text); }
 .act-btn.del:hover { background: #fff0f0; border-color: #ffd0d0; }
- 
-.empty {
-  text-align: center; color: var(--muted2);
-  font-size: 14px; padding: 30px 0;
-  font-family: 'Fraunces', serif; font-style: italic;
+
+.empty { text-align: center; color: var(--muted2); font-size: 14px; padding: 28px 0; font-family: 'Fraunces', serif; font-style: italic; }
+
+/* ── RECURRING RULES LIST ── */
+.rec-rule-item {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--r-sm); padding: 11px 13px;
+  margin-bottom: 7px; display: flex; align-items: center; gap: 10px;
 }
- 
+
 /* ── STATS ── */
-.stats-wrap { padding: 0 22px; }
- 
+.stats-wrap { padding-top: 4px; }
 .stat-view-toggle {
-  display: flex;
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: var(--r);
-  padding: 4px; gap: 4px;
-  margin-bottom: 18px;
+  display: flex; background: var(--surface);
+  border: 1.5px solid var(--border); border-radius: var(--r);
+  padding: 3px; gap: 3px; margin-bottom: 14px;
 }
 .sv-btn {
-  flex: 1; padding: 10px;
-  border: none; border-radius: 17px;
-  font-family: 'Nunito', sans-serif;
-  font-size: 13px; font-weight: 700;
-  cursor: pointer;
-  transition: all .22s cubic-bezier(.34,1.4,.64,1);
-  background: transparent; color: var(--muted);
-  letter-spacing: .2px;
+  flex: 1; padding: 9px; border: none; border-radius: 17px;
+  font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: all .2s; background: transparent; color: var(--muted);
 }
 .sv-btn.active { background: var(--text); color: #fff; }
- 
+
 .stat-nav {
-  display: flex; align-items: center;
-  justify-content: space-between;
-  margin-bottom: 18px;
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;
 }
-.stat-nav-label {
-  font-family: 'Fraunces', serif;
-  font-weight: 700; font-size: 22px;
-  letter-spacing: -.5px; color: var(--text);
-}
- 
+.stat-nav-label { font-family: 'Fraunces', serif; font-weight: 700; font-size: 18px; letter-spacing: -.5px; }
+
 .stat-card {
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: var(--r);
-  padding: 18px 20px;
-  margin-bottom: 12px;
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--r); padding: 16px 18px; margin-bottom: 10px;
 }
 .stat-card-label {
-  font-size: 10px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 1.5px;
-  color: var(--muted); margin-bottom: 14px;
-  display: flex; align-items: center; gap: 6px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
 }
-.stat-card-label svg { width: 13px; height: 13px; stroke-width: 2; }
- 
-.stat-row {
-  display: flex; align-items: center;
-  gap: 10px; margin-bottom: 8px;
-}
-.stat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.stat-name { font-size: 14px; font-weight: 600; flex: 1; }
-.stat-val {
-  font-family: 'Fraunces', serif;
-  font-size: 16px; font-weight: 700;
-}
-.stat-pct { font-size: 12px; color: var(--muted); min-width: 36px; text-align: right; }
- 
+.stat-card-label svg { width: 12px; height: 12px; pointer-events: none; }
+
+.stat-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.stat-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.stat-name { font-size: 13px; font-weight: 600; flex: 1; }
+.stat-val { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 700; }
+.stat-pct { font-size: 12px; color: var(--muted); min-width: 34px; text-align: right; }
 .unified-bar {
-  height: 7px; border-radius: 4px;
-  overflow: hidden; display: flex;
-  background: var(--surface2);
-  margin-top: 12px;
-  border: 1px solid var(--border);
+  height: 6px; border-radius: 3px; overflow: hidden; display: flex;
+  background: var(--surface2); margin-top: 10px; border: 1px solid var(--border);
 }
 .bar-T { background: var(--T); height: 100%; transition: width .5s cubic-bezier(.34,1,.64,1); }
 .bar-F { background: var(--F); height: 100%; transition: width .5s cubic-bezier(.34,1,.64,1); }
- 
-/* ── TOAST ── */
-.toast {
+
+/* ── LOGOUT FAB ── */
+.logout-fab {
   position: fixed;
-  bottom: 88px; left: 50%;
-  transform: translateX(-50%) translateY(14px);
-  background: var(--text);
-  color: #fff;
-  padding: 11px 20px;
-  border-radius: 40px;
-  font-size: 13px; font-weight: 600;
-  opacity: 0;
-  transition: all .28s cubic-bezier(.34,1.4,.64,1);
-  pointer-events: none; z-index: 999;
-  white-space: nowrap;
-  box-shadow: 0 6px 24px rgba(0,0,0,.15);
-}
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
- 
-/* ── EDIT OVERLAY ── */
-.overlay {
-  position: fixed; inset: 0;
-  background: rgba(26,24,20,.4);
-  backdrop-filter: blur(4px);
-  z-index: 200; display: flex; align-items: flex-end;
-  animation: fadeIn .18s;
-}
-@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
- 
-.overlay-sheet {
+  bottom: max(20px, env(safe-area-inset-bottom));
+  right: 16px;
+  z-index: 50;
   background: var(--surface);
-  border-top: 1.5px solid var(--border);
-  border-radius: 24px 24px 0 0;
-  padding: 10px 22px 40px;
-  width: 100%;
-  animation: sheetUp .26s cubic-bezier(.34,1.2,.64,1);
-}
-@keyframes sheetUp { from { transform:translateY(36px); opacity:0; } to { transform:translateY(0); opacity:1; } }
- 
-.sheet-handle {
-  width: 36px; height: 4px;
-  background: var(--border2);
-  border-radius: 2px; margin: 0 auto 22px;
-}
-.overlay-title {
-  font-family: 'Fraunces', serif;
-  font-size: 24px; font-weight: 700;
-  letter-spacing: -.5px; margin-bottom: 18px;
-}
-.overlay-field { margin-bottom: 12px; }
-.overlay-field label {
-  display: block;
-  font-size: 10px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 1.5px;
-  color: var(--muted); margin-bottom: 6px;
-}
-.overlay-field input {
-  width: 100%; padding: 13px 15px;
-  background: var(--surface2);
   border: 1.5px solid var(--border);
-  border-radius: var(--r-sm);
+  border-radius: 20px;
+  padding: 8px 14px;
   font-family: 'Nunito', sans-serif;
-  font-size: 15px; color: var(--text); outline: none;
-}
-.overlay-field input:focus { border-color: var(--border2); }
-.overlay-btns { display: flex; gap: 10px; margin-top: 18px; }
-.ov-cancel {
-  flex: 1; padding: 14px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-sm);
-  background: transparent; color: var(--muted);
-  font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 600;
-  cursor: pointer; transition: all .15s;
-}
-.ov-cancel:hover { color: var(--text); border-color: var(--border2); }
-.ov-save {
-  flex: 2; padding: 14px; border: none;
-  border-radius: var(--r-sm);
-  background: var(--text); color: #fff;
-  font-family: 'Nunito', sans-serif;
-  font-size: 15px; font-weight: 700; cursor: pointer;
-  transition: opacity .15s;
-}
-.ov-save:hover { opacity: .85; }
- 
-/* ── RECURRING ── */
-.entry-rec { border-style: dashed; }
- 
-.rec-badge {
-  display: inline-flex; align-items: center;
-  margin-left: 5px; color: var(--muted);
-  vertical-align: middle;
-}
- 
-.add-btn-rec-open {
-  padding: 12px 16px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-sm);
-  background: var(--surface2);
-  font-family: 'Nunito', sans-serif;
-  font-size: 14px; font-weight: 700;
+  font-size: 11px;
+  font-weight: 700;
   color: var(--muted);
   cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0,0,0,.08);
   transition: all .15s;
-  white-space: nowrap;
+  letter-spacing: .3px;
 }
-.add-btn-rec-open:hover { border-color: var(--border2); color: var(--text); }
- 
-.rec-rule-item {
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-sm);
-  padding: 12px 14px;
-  margin-bottom: 8px;
-  display: flex; align-items: center; gap: 11px;
+.logout-fab:hover { color: var(--text); border-color: var(--border2); }
+.toast {
+  position: fixed; bottom: 20px; left: 50%;
+  transform: translateX(-50%) translateY(14px);
+  background: var(--text); color: #fff;
+  padding: 10px 18px; border-radius: 40px;
+  font-size: 13px; font-weight: 600;
+  opacity: 0; transition: all .28s cubic-bezier(.34,1.4,.64,1);
+  pointer-events: none; z-index: 999; white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(0,0,0,.14);
 }
- 
-.rec-scope-label {
-  font-size: 11px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 1px;
-  color: var(--muted); margin-bottom: 10px;
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── OVERLAY ── */
+.overlay {
+  position: fixed; inset: 0; background: rgba(26,24,20,.4);
+  backdrop-filter: blur(4px); z-index: 200;
+  display: flex; align-items: flex-end; animation: fadeIn .18s;
 }
- 
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+.overlay-sheet {
+  background: var(--surface); border-top: 1.5px solid var(--border);
+  border-radius: 24px 24px 0 0; padding: 10px 20px 40px;
+  width: 100%; max-width: 430px; margin: 0 auto;
+  animation: sheetUp .26s cubic-bezier(.34,1.2,.64,1);
+  max-height: 90dvh; overflow-y: auto;
+}
+@keyframes sheetUp { from{transform:translateY(36px);opacity:0} to{transform:translateY(0);opacity:1} }
+.sheet-handle { width: 36px; height: 4px; background: var(--border2); border-radius: 2px; margin: 0 auto 18px; }
+.overlay-title { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 700; letter-spacing: -.5px; margin-bottom: 16px; }
+.overlay-field { margin-bottom: 12px; }
+.overlay-field label { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 6px; }
+.overlay-field input {
+  width: 100%; padding: 12px 14px; background: var(--surface2);
+  border: 1.5px solid var(--border); border-radius: var(--r-sm);
+  font-family: 'Nunito', sans-serif; font-size: 15px; color: var(--text); outline: none;
+}
+.overlay-btns { display: flex; gap: 8px; margin-top: 14px; }
+.ov-cancel {
+  flex: 1; padding: 13px; border: 1.5px solid var(--border); border-radius: var(--r-sm);
+  background: transparent; color: var(--muted); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.ov-save {
+  flex: 2; padding: 13px; border: none; border-radius: var(--r-sm);
+  background: var(--text); color: #fff; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer;
+}
+.rec-scope-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
 .ov-scope-btn {
-  width: 100%; padding: 13px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-sm);
-  background: var(--surface2);
-  font-family: 'Nunito', sans-serif;
-  font-size: 14px; font-weight: 600;
-  color: var(--text); cursor: pointer;
-  transition: all .15s; text-align: left;
+  width: 100%; padding: 12px; border: 1.5px solid var(--border); border-radius: var(--r-sm);
+  background: var(--surface2); font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 600;
+  color: var(--text); cursor: pointer; transition: all .15s; text-align: left;
 }
 .ov-scope-btn:hover { background: var(--border); }
- 
-.rec-day-grid {
-  display: flex; gap: 5px; flex-wrap: wrap;
-}
+.rec-day-grid { display: flex; gap: 5px; flex-wrap: wrap; }
 .rec-day-btn {
-  padding: 7px 10px;
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  background: var(--surface2);
-  font-family: 'Nunito', sans-serif;
-  font-size: 13px; font-weight: 700;
-  color: var(--muted); cursor: pointer;
-  transition: all .15s;
+  padding: 7px 9px; border: 1.5px solid var(--border); border-radius: 9px;
+  background: var(--surface2); font-family: 'Nunito', sans-serif;
+  font-size: 12px; font-weight: 700; color: var(--muted); cursor: pointer; transition: all .15s;
 }
 .rec-day-btn.selected { background: var(--text); color: #fff; border-color: var(--text); }
- 
-.rec-freq-grid {
-  display: flex; gap: 5px; flex-wrap: wrap;
-}
+.rec-freq-grid { display: flex; gap: 5px; flex-wrap: wrap; }
 .rec-freq-btn {
-  padding: 7px 10px;
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  background: var(--surface2);
-  font-family: 'Nunito', sans-serif;
-  font-size: 12px; font-weight: 700;
-  color: var(--muted); cursor: pointer;
-  transition: all .15s;
+  padding: 7px 9px; border: 1.5px solid var(--border); border-radius: 9px;
+  background: var(--surface2); font-family: 'Nunito', sans-serif;
+  font-size: 12px; font-weight: 700; color: var(--muted); cursor: pointer; transition: all .15s;
 }
 .rec-freq-btn.selected { background: var(--text); color: #fff; border-color: var(--text); }
- 
 .ov-del-rule {
-  width: 100%; margin-top: 16px; padding: 12px;
-  border: none; border-radius: var(--r-sm);
-  background: none;
-  font-family: 'Nunito', sans-serif;
-  font-size: 13px; font-weight: 700;
-  color: #c0392b; cursor: pointer;
-  transition: opacity .15s;
+  width: 100%; margin-top: 14px; padding: 12px; border: none; border-radius: var(--r-sm);
+  background: none; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; color: #c0392b; cursor: pointer;
 }
-.ov-del-rule:hover { opacity: .7; }
- 
-/* ── BOTTOM NAV ── */
-.bottom-nav {
-  position: fixed; bottom: 0; left: 50%;
-  transform: translateX(-50%);
-  width: 100%; max-width: 430px;
-  background: rgba(245,243,238,.94);
-  backdrop-filter: blur(14px);
-  border-top: 1.5px solid var(--border);
-  display: flex; padding: 8px 16px 20px; gap: 4px;
-  z-index: 100;
-}
-.tab-btn {
-  flex: 1; display: flex; flex-direction: column;
-  align-items: center; gap: 4px; padding: 8px 4px;
-  border: none; background: transparent;
-  border-radius: 14px; cursor: pointer;
-  transition: all .2s; color: var(--muted);
-  font-family: 'Nunito', sans-serif;
-}
-.tab-btn .icon { font-size: 20px; transition: transform .2s; display: flex; align-items: center; justify-content: center; }
-.tab-btn .icon svg { width: 20px; height: 20px; stroke-width: 1.8; }
-.tab-btn .lbl { font-size: 10px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; }
-.tab-btn.active { color: var(--text); }
-.tab-btn.active .icon { transform: scale(1.15); }
 </style>
 </head>
 <body>
- 
-<div id="login-wrap" style="display:none">
+
+<!-- LOGIN -->
+<div id="login-wrap">
   <div class="login-screen">
-    <div class="login-title">
-      <em>Bienvenue</em>
-      Mon appli<br>de suivi
-    </div>
+    <div class="login-title"><em>Bienvenue</em>Mon appli<br>de suivi</div>
     <div class="login-sub">Connecte-toi pour continuer</div>
     <div class="login-card">
-      <div class="login-field">
-        <label>Prénom</label>
-        <input id="lu" type="text" placeholder="Ton prénom" autocomplete="username" autocapitalize="words">
-      </div>
-      <div class="login-field">
-        <label>Mot de passe</label>
-        <input id="lp" type="password" placeholder="••••" autocomplete="current-password"
-          onkeydown="if(event.key==='Enter')tryLogin()">
-      </div>
+      <div class="login-field"><label>Prénom</label><input id="lu" type="text" placeholder="Ton prénom" autocomplete="username" autocapitalize="words"></div>
+      <div class="login-field"><label>Mot de passe</label><input id="lp" type="password" placeholder="••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')tryLogin()"></div>
       <button class="login-btn" onclick="tryLogin()">Se connecter</button>
       <div class="login-error" id="login-err"></div>
     </div>
   </div>
 </div>
- 
-<div id="app" class="app" style="display:none"></div>
+
+<!-- TOP NAV — rempli par JS pour avoir les SVG inline -->
+<nav class="top-nav" id="top-nav" style="display:none"></nav>
+
+<!-- MAIN -->
+<div class="main-wrap" id="main-wrap" style="display:none">
+  <div class="date-strip" id="date-strip"></div>
+  <!-- FORM FIXED JUST BELOW DATE -->
+  <div class="form-footer" id="form-footer"></div>
+  <!-- SCROLLABLE LIST BELOW -->
+  <div class="scroll-area" id="scroll-area"></div>
+</div>
+
 <div class="toast" id="toast"></div>
- 
-<nav class="bottom-nav" style="display:none">
-  <button class="tab-btn" id="nt-dep" onclick="tab('dep')">
-    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span>
-    <span class="lbl">Dépenses</span>
-  </button>
-  <button class="tab-btn" id="nt-tac" onclick="tab('tac')">
-    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
-    <span class="lbl">Tâches</span>
-  </button>
-  <button class="tab-btn" id="nt-stats" onclick="tab('stats')">
-    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
-    <span class="lbl">Stats</span>
-  </button>
-</nav>
- 
+<button class="logout-fab" id="logout-fab" onclick="askLogout()" style="display:none">Déconnexion</button>
+
 <script>
 // ── AUTH ──
 const USERS = { 'Fato': '0401' };
 let loggedIn = sessionStorage.getItem('auth') === 'ok';
- 
+
 function tryLogin() {
   const u = document.getElementById('lu').value.trim();
   const p = document.getElementById('lp').value;
@@ -695,30 +488,32 @@ function tryLogin() {
     sessionStorage.setItem('auth', 'ok');
     loggedIn = true;
     document.getElementById('login-wrap').style.display = 'none';
-    document.getElementById('app').style.display = '';
-    document.querySelector('.bottom-nav').style.display = '';
+    document.getElementById('top-nav').style.display = '';
+    document.getElementById('main-wrap').style.display = '';
     render();
   } else {
     const err = document.getElementById('login-err');
     err.textContent = 'Identifiant ou mot de passe incorrect';
     err.style.animation = 'none';
-    requestAnimationFrame(() => err.style.animation = '');
+    requestAnimationFrame(() => { err.style.animation = 'shake .3s'; });
     document.getElementById('lp').value = '';
     document.getElementById('lp').focus();
   }
 }
- 
+
 function logout() {
   sessionStorage.removeItem('auth');
   loggedIn = false;
   document.getElementById('login-wrap').style.display = '';
-  document.getElementById('app').style.display = 'none';
-  document.querySelector('.bottom-nav').style.display = 'none';
+  document.getElementById('top-nav').style.display = 'none';
+  document.getElementById('main-wrap').style.display = 'none';
+  document.getElementById('logout-fab').style.display = 'none';
+  closeEdit();
   document.getElementById('lu').value = '';
   document.getElementById('lp').value = '';
   document.getElementById('login-err').textContent = '';
 }
- 
+
 // ── STATE ──
 let current = 'dep';
 let currentPerson = 'F';
@@ -726,76 +521,56 @@ let selectedDate = today();
 let selectedMonth = today().slice(0, 7);
 let statView = 'day';
 let editingId = null;
- 
-// ── STORAGE ──
+let newRecDays = [];
+let newRecEvery = 1;
+
 function get() { return JSON.parse(localStorage.getItem('db')) || []; }
 function save(d) { localStorage.setItem('db', JSON.stringify(d)); }
 function getRules() { return JSON.parse(localStorage.getItem('recRules')) || []; }
 function saveRules(r) { localStorage.setItem('recRules', JSON.stringify(r)); }
- 
 function today() { return new Date().toISOString().slice(0, 10); }
- 
+
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2200);
 }
- 
+
 function tab(t) { current = t; render(); }
 function selectPerson(p) { currentPerson = p; render(); }
 function setStatView(v) { statView = v; render(); }
- 
-// ── RECURRENCE LOGIC ──
-// A rule: { id, label, p, days:[0-6 Sun=0], every:1|2|3|4, startDate, exceptions:{date:'skip'|'edit'}, editOverrides:{date:{label}} }
-// days: 0=Sun,1=Mon,2=Tue,3=Wed,4=Thu,5=Fri,6=Sat
- 
+
+// ── RECURRENCE ──
 function doesRuleApplyOnDate(rule, dateStr) {
   if (dateStr < rule.startDate) return false;
+  if (rule.endDate && dateStr >= rule.endDate) return false;
   const exc = rule.exceptions && rule.exceptions[dateStr];
   if (exc === 'skip') return false;
- 
   const d = new Date(dateStr + 'T12:00:00');
-  const dow = d.getDay(); // 0=Sun
+  const dow = d.getDay();
   if (!rule.days.includes(dow)) return false;
- 
-  // Check week frequency (every N weeks from startDate)
   if (rule.every > 1) {
     const start = new Date(rule.startDate + 'T12:00:00');
-    const diffMs = d - start;
-    const diffDays = Math.round(diffMs / 86400000);
-    const diffWeeks = Math.floor(diffDays / 7);
+    const diffWeeks = Math.floor(Math.round((d - start) / 86400000) / 7);
     if (diffWeeks % rule.every !== 0) return false;
   }
   return true;
 }
- 
+
 function getRecurringEntriesForDate(dateStr) {
-  const rules = getRules();
-  return rules
+  return getRules()
     .filter(r => doesRuleApplyOnDate(r, dateStr))
     .map(r => {
       const override = r.editOverrides && r.editOverrides[dateStr];
-      return {
-        id: 'rec_' + r.id + '_' + dateStr,
-        ruleId: r.id,
-        type: 'tac',
-        p: r.p,
-        v: override ? override.label : r.label,
-        date: dateStr,
-        isRecurring: true,
-        isOverride: !!override,
-      };
+      return { id: 'rec_' + r.id + '_' + dateStr, ruleId: r.id, type: 'tac', p: r.p, v: override ? override.label : r.label, date: dateStr, isRecurring: true };
     });
 }
- 
+
 function freqLabel(rule) {
-  const DAY_NAMES = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
-  const days = rule.days.map(d => DAY_NAMES[d]).join(', ');
-  const freq = rule.every === 1 ? 'chaque semaine' : `1 sem. sur ${rule.every}`;
-  return `${days} · ${freq}`;
+  const DN = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+  return rule.days.map(d => DN[d]).join(', ') + ' · ' + (rule.every === 1 ? 'chaque sem.' : `1/${rule.every} sem.`);
 }
- 
+
 // ── ADD ──
 function add(type) {
   const v = document.getElementById('v')?.value?.trim();
@@ -807,157 +582,86 @@ function add(type) {
   document.getElementById('v').value = '';
   if (document.getElementById('m')) document.getElementById('m').value = '';
   showToast(type === 'dep' ? 'Dépense ajoutée' : 'Tâche ajoutée');
-  render();
+  renderScrollArea();
 }
- 
-// ── EDIT / DELETE for regular entries ──
-function openEdit(id) { editingId = id; renderOverlay('edit'); }
- 
+
+// ── OVERLAY ──
 function closeEdit() {
   editingId = null;
   const ov = document.getElementById('edit-overlay');
   if (ov) ov.remove();
 }
- 
+
+function openEdit(id) { editingId = id; showOverlay('edit'); }
+function del(id) { showOverlay('del', id); }
+function openEditRec(ruleId, dateStr) { editingId = { ruleId, dateStr }; showOverlay('editRec'); }
+function delRec(ruleId, dateStr) { editingId = { ruleId, dateStr }; showOverlay('delRec'); }
+function openAddRec() { newRecDays = []; newRecEvery = 1; showOverlay('addRec'); }
+function openEditRecRule(ruleId) { editingId = { ruleId, dateStr: null }; showOverlay('editRecRule'); }
+
 function saveEdit() {
   const d = get();
   const item = d.find(x => x.id === editingId);
   const v = document.getElementById('ev')?.value?.trim();
   const m = document.getElementById('em')?.value?.trim() || '';
   if (!v) return;
-  if (item.type === 'dep') { item.v = parseFloat(v); item.m = m; }
-  else { item.v = v; }
-  save(d); closeEdit(); showToast('Modifié ✓'); render();
+  if (item.type === 'dep') { item.v = parseFloat(v); item.m = m; } else { item.v = v; }
+  save(d); closeEdit(); showToast('Modifié ✓'); renderScrollArea();
 }
- 
-function del(id) { renderOverlay('del', id); }
- 
+
 function confirmDel(id) {
   save(get().filter(x => x.id !== id));
-  closeEdit(); showToast('Supprimé'); render();
+  closeEdit(); showToast('Supprimé'); renderScrollArea();
 }
- 
-// ── EDIT / DELETE for recurring entries ──
-function openEditRec(ruleId, dateStr) {
-  editingId = { ruleId, dateStr };
-  renderOverlay('editRec');
-}
- 
-function delRec(ruleId, dateStr) {
-  editingId = { ruleId, dateStr };
-  renderOverlay('delRec');
-}
- 
+
 function applyRecEdit(scope) {
   const { ruleId, dateStr } = editingId;
   const rules = getRules();
   const rule = rules.find(r => r.id === ruleId);
   const newLabel = document.getElementById('ev')?.value?.trim();
   if (!newLabel) return;
- 
   if (scope === 'one') {
     if (!rule.editOverrides) rule.editOverrides = {};
     rule.editOverrides[dateStr] = { label: newLabel };
   } else if (scope === 'future') {
-    // Split rule: end old at dateStr-1, create new from dateStr
-    rule.endDate = dateStr; // mark old rule as ended before dateStr
-    const newRule = {
-      ...JSON.parse(JSON.stringify(rule)),
-      id: Date.now(),
-      label: newLabel,
-      startDate: dateStr,
-      endDate: undefined,
-      exceptions: {},
-      editOverrides: {},
-    };
-    rules.push(newRule);
-  } else { // all
-    rule.label = newLabel;
-    rule.editOverrides = {};
+    rule.endDate = dateStr;
+    rules.push({ ...JSON.parse(JSON.stringify(rule)), id: Date.now(), label: newLabel, startDate: dateStr, endDate: undefined, exceptions: {}, editOverrides: {} });
+  } else {
+    rule.label = newLabel; rule.editOverrides = {};
   }
-  saveRules(rules);
-  closeEdit(); showToast('Modifié ✓'); render();
+  saveRules(rules); closeEdit(); showToast('Modifié ✓'); renderScrollArea();
 }
- 
+
 function applyRecDel(scope) {
   const { ruleId, dateStr } = editingId;
   const rules = getRules();
   const idx = rules.findIndex(r => r.id === ruleId);
   const rule = rules[idx];
- 
-  if (scope === 'one') {
-    if (!rule.exceptions) rule.exceptions = {};
-    rule.exceptions[dateStr] = 'skip';
-    saveRules(rules);
-  } else if (scope === 'future') {
-    rule.endDate = dateStr;
-    saveRules(rules);
-  } else { // all
-    rules.splice(idx, 1);
-    saveRules(rules);
-  }
-  closeEdit(); showToast('Supprimé'); render();
+  if (scope === 'one') { if (!rule.exceptions) rule.exceptions = {}; rule.exceptions[dateStr] = 'skip'; saveRules(rules); }
+  else if (scope === 'future') { rule.endDate = dateStr; saveRules(rules); }
+  else { rules.splice(idx, 1); saveRules(rules); }
+  closeEdit(); showToast('Supprimé'); renderScrollArea();
 }
- 
-// Check endDate in doesRuleApplyOnDate
-const _origDoesApply = doesRuleApplyOnDate;
- 
-// ── ADD RECURRING TASK ──
-let newRecDays = [];
-let newRecEvery = 1;
- 
+
 function toggleRecDay(d) {
-  if (newRecDays.includes(d)) newRecDays = newRecDays.filter(x => x !== d);
-  else newRecDays.push(d);
-  // Re-render just the day buttons
-  document.querySelectorAll('.rec-day-btn').forEach(btn => {
-    const bd = parseInt(btn.dataset.day);
-    btn.classList.toggle('selected', newRecDays.includes(bd));
-  });
+  newRecDays = newRecDays.includes(d) ? newRecDays.filter(x => x !== d) : [...newRecDays, d];
+  document.querySelectorAll('.rec-day-btn').forEach(btn => btn.classList.toggle('selected', newRecDays.includes(parseInt(btn.dataset.day))));
 }
- 
 function setRecEvery(n) {
   newRecEvery = n;
-  document.querySelectorAll('.rec-freq-btn').forEach(btn => {
-    btn.classList.toggle('selected', parseInt(btn.dataset.every) === n);
-  });
+  document.querySelectorAll('.rec-freq-btn').forEach(btn => btn.classList.toggle('selected', parseInt(btn.dataset.every) === n));
 }
- 
+
 function saveNewRec() {
   const label = document.getElementById('rec-label')?.value?.trim();
   const startDate = document.getElementById('rec-start')?.value || today();
   if (!label) { showToast('⚠ Nomme la tâche'); return; }
   if (newRecDays.length === 0) { showToast('⚠ Choisis au moins un jour'); return; }
   const rules = getRules();
-  rules.push({
-    id: Date.now(),
-    label,
-    p: currentPerson,
-    days: [...newRecDays],
-    every: newRecEvery,
-    startDate,
-    exceptions: {},
-    editOverrides: {},
-  });
-  saveRules(rules);
-  newRecDays = [];
-  newRecEvery = 1;
-  closeEdit();
-  showToast('Récurrence créée ✓');
-  render();
+  rules.push({ id: Date.now(), label, p: currentPerson, days: [...newRecDays], every: newRecEvery, startDate, exceptions: {}, editOverrides: {} });
+  saveRules(rules); newRecDays = []; newRecEvery = 1; closeEdit(); showToast('Récurrence créée ✓'); renderScrollArea();
 }
- 
-function openAddRec() {
-  newRecDays = [];
-  newRecEvery = 1;
-  renderOverlay('addRec');
-}
- 
-function openEditRecRule(ruleId) {
-  editingId = { ruleId, dateStr: null };
-  renderOverlay('editRecRule');
-}
- 
+
 function saveEditRecRule() {
   const { ruleId } = editingId;
   const rules = getRules();
@@ -966,366 +670,307 @@ function saveEditRecRule() {
   const startDate = document.getElementById('rec-start')?.value;
   if (label) rule.label = label;
   if (startDate) rule.startDate = startDate;
-  rule.days = [...newRecDays];
-  rule.every = newRecEvery;
-  saveRules(rules);
-  closeEdit(); showToast('Récurrence modifiée ✓'); render();
+  rule.days = [...newRecDays]; rule.every = newRecEvery;
+  saveRules(rules); closeEdit(); showToast('Récurrence modifiée ✓'); renderScrollArea();
 }
- 
+
 function delRecRule(ruleId) {
-  const rules = getRules().filter(r => r.id !== ruleId);
-  saveRules(rules);
-  closeEdit(); showToast('Récurrence supprimée'); render();
+  saveRules(getRules().filter(r => r.id !== ruleId));
+  closeEdit(); showToast('Récurrence supprimée'); renderScrollArea();
 }
- 
-// ── OVERLAY ROUTER ──
-function renderOverlay(mode, extraId) {
+
+function showOverlay(mode, extraId) {
   const existing = document.getElementById('edit-overlay');
   if (existing) existing.remove();
-  const db = get();
-  const rules = getRules();
- 
-  const ov = document.createElement('div');
-  ov.className = 'overlay';
-  ov.id = 'edit-overlay';
- 
-  const DAY_NAMES_FULL = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
-  const DAY_INDICES = [1,2,3,4,5,6,0]; // Mon→Sun display order
- 
+  const db = get(); const rules = getRules();
+  const DAY_NAMES = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+  const DAY_ORDER = [1,2,3,4,5,6,0];
   let inner = '';
- 
+
   if (mode === 'edit') {
     const item = db.find(x => x.id === editingId);
-    inner = `
-    <div class="overlay-title">Modifier</div>
-    ${item.type === 'dep' ? `
-      <div class="overlay-field"><label>Montant (€)</label><input id="ev" type="number" value="${item.v}" step="0.01"></div>
-      <div class="overlay-field"><label>Motif</label><input id="em" value="${item.m}"></div>
-    ` : `
-      <div class="overlay-field"><label>Tâche</label><input id="ev" value="${item.v}"></div>
-    `}
+    inner = `<div class="overlay-title">Modifier</div>
+    ${item.type === 'dep'
+      ? `<div class="overlay-field"><label>Montant (€)</label><input id="ev" type="number" value="${item.v}" step="0.01"></div>
+         <div class="overlay-field"><label>Motif</label><input id="em" value="${item.m}"></div>`
+      : `<div class="overlay-field"><label>Tâche</label><input id="ev" value="${item.v}"></div>`}
     <div class="overlay-btns">
       <button class="ov-cancel" onclick="closeEdit()">Annuler</button>
       <button class="ov-save" onclick="saveEdit()">Enregistrer</button>
     </div>`;
- 
+
   } else if (mode === 'del') {
-    const delId = extraId;
-    inner = `
-    <div class="overlay-title">Supprimer ?</div>
-    <p style="font-size:14px;color:var(--muted);margin-bottom:20px">Cette entrée sera supprimée définitivement.</p>
+    inner = `<div class="overlay-title">Supprimer ?</div>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:18px">Cette entrée sera supprimée définitivement.</p>
     <div class="overlay-btns">
       <button class="ov-cancel" onclick="closeEdit()">Annuler</button>
-      <button class="ov-save" style="background:#c0392b" onclick="confirmDel(${delId})">Supprimer</button>
+      <button class="ov-save" style="background:#c0392b" onclick="confirmDel(${extraId})">Supprimer</button>
     </div>`;
- 
+
   } else if (mode === 'editRec') {
     const { ruleId, dateStr } = editingId;
     const rule = rules.find(r => r.id === ruleId);
-    const currentLabel = (rule.editOverrides && rule.editOverrides[dateStr]) ? rule.editOverrides[dateStr].label : rule.label;
-    inner = `
-    <div class="overlay-title">Modifier la tâche</div>
-    <div class="overlay-field"><label>Tâche</label><input id="ev" value="${currentLabel}"></div>
-    <div class="rec-scope-label">Modifier…</div>
-    <div class="overlay-btns" style="flex-direction:column;gap:8px">
+    const cur = (rule.editOverrides && rule.editOverrides[dateStr]) ? rule.editOverrides[dateStr].label : rule.label;
+    inner = `<div class="overlay-title">Modifier la tâche</div>
+    <div class="overlay-field"><label>Tâche</label><input id="ev" value="${cur}"></div>
+    <div class="rec-scope-label" style="margin-top:12px">Modifier…</div>
+    <div style="display:flex;flex-direction:column;gap:7px">
       <button class="ov-scope-btn" onclick="applyRecEdit('one')">Ce jour uniquement</button>
       <button class="ov-scope-btn" onclick="applyRecEdit('future')">Ce jour et les suivants</button>
       <button class="ov-scope-btn" onclick="applyRecEdit('all')">Toutes les occurrences</button>
       <button class="ov-cancel" onclick="closeEdit()">Annuler</button>
     </div>`;
- 
+
   } else if (mode === 'delRec') {
-    inner = `
-    <div class="overlay-title">Supprimer ?</div>
+    inner = `<div class="overlay-title">Supprimer ?</div>
     <div class="rec-scope-label">Supprimer…</div>
-    <div class="overlay-btns" style="flex-direction:column;gap:8px">
-      <button class="ov-scope-btn" style="background:#c0392b;color:#fff" onclick="applyRecDel('one')">Ce jour uniquement</button>
-      <button class="ov-scope-btn" style="background:#c0392b;color:#fff" onclick="applyRecDel('future')">Ce jour et les suivants</button>
-      <button class="ov-scope-btn" style="background:#c0392b;color:#fff" onclick="applyRecDel('all')">Toutes les occurrences</button>
+    <div style="display:flex;flex-direction:column;gap:7px">
+      <button class="ov-scope-btn" style="background:#fff0f0;border-color:#ffd0d0;color:#c0392b" onclick="applyRecDel('one')">Ce jour uniquement</button>
+      <button class="ov-scope-btn" style="background:#fff0f0;border-color:#ffd0d0;color:#c0392b" onclick="applyRecDel('future')">Ce jour et les suivants</button>
+      <button class="ov-scope-btn" style="background:#fff0f0;border-color:#ffd0d0;color:#c0392b" onclick="applyRecDel('all')">Toutes les occurrences</button>
       <button class="ov-cancel" onclick="closeEdit()">Annuler</button>
     </div>`;
- 
+
   } else if (mode === 'addRec' || mode === 'editRecRule') {
     const isEdit = mode === 'editRecRule';
     let rule = null;
-    if (isEdit) {
-      rule = rules.find(r => r.id === editingId.ruleId);
-      newRecDays = [...rule.days];
-      newRecEvery = rule.every;
-    }
- 
-    const dayBtns = DAY_INDICES.map(d => `
-      <button class="rec-day-btn ${newRecDays.includes(d) ? 'selected' : ''}" data-day="${d}" onclick="toggleRecDay(${d})">${DAY_NAMES_FULL[d]}</button>
-    `).join('');
- 
-    const freqBtns = [1,2,3,4].map(n => `
-      <button class="rec-freq-btn ${newRecEvery === n ? 'selected' : ''}" data-every="${n}" onclick="setRecEvery(${n})">${n === 1 ? 'Chaque sem.' : `1/${n} sem.`}</button>
-    `).join('');
- 
-    inner = `
-    <div class="overlay-title">${isEdit ? 'Modifier la récurrence' : 'Nouvelle tâche récurrente'}</div>
-    <div class="overlay-field"><label>Nom de la tâche</label><input id="rec-label" value="${isEdit ? rule.label : ''}" placeholder="Ex: Sport, Ménage…"></div>
-    <div class="overlay-field">
-      <label>Jours</label>
-      <div class="rec-day-grid">${dayBtns}</div>
-    </div>
-    <div class="overlay-field">
-      <label>Fréquence</label>
-      <div class="rec-freq-grid">${freqBtns}</div>
-    </div>
-    <div class="overlay-field"><label>À partir du</label><input id="rec-start" type="date" value="${isEdit ? rule.startDate : selectedDate}"></div>
-    <div class="overlay-btns" style="margin-top:16px">
+    if (isEdit) { rule = rules.find(r => r.id === editingId.ruleId); newRecDays = [...rule.days]; newRecEvery = rule.every; }
+    const dayBtns = DAY_ORDER.map(d => `<button class="rec-day-btn ${newRecDays.includes(d)?'selected':''}" data-day="${d}" onclick="toggleRecDay(${d})">${DAY_NAMES[d]}</button>`).join('');
+    const freqBtns = [1,2,3,4].map(n => `<button class="rec-freq-btn ${newRecEvery===n?'selected':''}" data-every="${n}" onclick="setRecEvery(${n})">${n===1?'Chaque sem.':`1/${n} sem.`}</button>`).join('');
+    inner = `<div class="overlay-title">${isEdit ? 'Modifier la récurrence' : 'Nouvelle récurrence'}</div>
+    <div class="overlay-field"><label>Nom</label><input id="rec-label" value="${isEdit?rule.label:''}" placeholder="Sport, ménage…"></div>
+    <div class="overlay-field"><label>Jours</label><div class="rec-day-grid">${dayBtns}</div></div>
+    <div class="overlay-field"><label>Fréquence</label><div class="rec-freq-grid">${freqBtns}</div></div>
+    <div class="overlay-field"><label>À partir du</label><input id="rec-start" type="date" value="${isEdit?rule.startDate:selectedDate}"></div>
+    <div class="overlay-btns">
       <button class="ov-cancel" onclick="closeEdit()">Annuler</button>
-      <button class="ov-save" onclick="${isEdit ? 'saveEditRecRule()' : 'saveNewRec()'}">${isEdit ? 'Enregistrer' : 'Créer'}</button>
+      <button class="ov-save" onclick="${isEdit?'saveEditRecRule()':'saveNewRec()'}">${isEdit?'Enregistrer':'Créer'}</button>
     </div>
     ${isEdit ? `<button class="ov-del-rule" onclick="delRecRule(${rule.id})">Supprimer cette récurrence</button>` : ''}`;
   }
- 
+
+  const ov = document.createElement('div');
+  ov.className = 'overlay'; ov.id = 'edit-overlay';
   ov.innerHTML = `<div class="overlay-sheet"><div class="sheet-handle"></div>${inner}</div>`;
   ov.addEventListener('click', e => { if (e.target === ov) closeEdit(); });
   document.body.appendChild(ov);
   setTimeout(() => (document.getElementById('ev') || document.getElementById('rec-label'))?.focus(), 80);
 }
- 
-// ── NAV ──
-function changeDay(offset) {
-  const d = new Date(selectedDate);
-  d.setDate(d.getDate() + offset);
-  selectedDate = d.toISOString().slice(0, 10);
-  render();
-}
-function changeMonth(offset) {
-  const d = new Date(selectedMonth + '-01');
-  d.setMonth(d.getMonth() + offset);
-  selectedMonth = d.toISOString().slice(0, 7);
-  render();
-}
-function goToday() { selectedDate = today(); render(); }
- 
+
 // ── DATE FORMAT ──
 function parseLocal(s) { return new Date(s + 'T12:00:00'); }
 function heroDate(s) {
   const d = parseLocal(s);
   const cap = str => str.charAt(0).toUpperCase() + str.slice(1);
-  return {
-    day: cap(d.toLocaleDateString('fr-FR', { weekday: 'long' })),
-    num: d.getDate(),
-    month: cap(d.toLocaleDateString('fr-FR', { month: 'long' })),
-    year: d.getFullYear()
-  };
+  return { day: cap(d.toLocaleDateString('fr-FR', { weekday: 'long' })), num: d.getDate(), month: cap(d.toLocaleDateString('fr-FR', { month: 'long' })), year: d.getFullYear() };
 }
 function heroMonth(s) {
   const d = new Date(s + '-01T12:00:00');
-  const month = d.toLocaleDateString('fr-FR', { month: 'long' });
-  return `${month.charAt(0).toUpperCase() + month.slice(1)} ${d.getFullYear()}`;
+  const m = d.toLocaleDateString('fr-FR', { month: 'long' });
+  return `${m.charAt(0).toUpperCase()+m.slice(1)} ${d.getFullYear()}`;
 }
-function fullDayLabel(s) {
-  const { day, num, month } = heroDate(s);
-  return `${day} ${num} ${month}`;
-}
+function fullDayLabel(s) { const { day, num, month } = heroDate(s); return `${day} ${num} ${month}`; }
 function isToday(s) { return s === today(); }
- 
+
+function changeDay(offset) {
+  const d = new Date(selectedDate); d.setDate(d.getDate() + offset);
+  selectedDate = d.toISOString().slice(0, 10); render();
+}
+function changeMonth(offset) {
+  const d = new Date(selectedMonth + '-01'); d.setMonth(d.getMonth() + offset);
+  selectedMonth = d.toISOString().slice(0, 7); render();
+}
+function goToday() { selectedDate = today(); render(); }
+
 // ── HTML HELPERS ──
 function entryHTML(item) {
   const isT = item.p === 'T';
   const isRec = item.isRecurring;
-  const recIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:11px;height:11px;pointer-events:none"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>`;
- 
+  const recIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px;height:10px;pointer-events:none"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>`;
   const editFn = isRec ? `openEditRec(${item.ruleId},'${item.date}')` : `openEdit(${item.id})`;
   const delFn  = isRec ? `delRec(${item.ruleId},'${item.date}')` : `del(${item.id})`;
- 
-  return `
-  <div class="entry ${isRec ? 'entry-rec' : ''}">
-    <div class="entry-pip ${isT ? 'pipT' : 'pipF'}"></div>
+  return `<div class="entry ${isRec?'entry-rec':''}">
+    <div class="entry-pip ${isT?'pipT':'pipF'}"></div>
     <div class="entry-body">
-      <div class="entry-main">
-        ${item.type === 'dep' ? (item.m || 'Sans motif') : item.v}
-        ${isRec ? `<span class="rec-badge">${recIcon}</span>` : ''}
-      </div>
-      <div class="entry-sub">${isT ? 'T' : 'F'}${isRec ? ' · récurrent' : ''}</div>
+      <div class="entry-main">${item.type==='dep'?(item.m||'Sans motif'):item.v}${isRec?`<span class="rec-badge">${recIcon}</span>`:''}</div>
+      <div class="entry-sub">${isT?'T':'F'}${isRec?' · récurrent':''}</div>
     </div>
-    ${item.type === 'dep' ? `<div class="entry-amount ${isT ? 'amtT' : 'amtF'}">${item.v.toFixed(2)} €</div>` : ''}
+    ${item.type==='dep'?`<div class="entry-amount ${isT?'amtT':'amtF'}">${item.v.toFixed(2)} €</div>`:''}
     <div class="entry-actions">
       <button class="act-btn" onclick="${editFn}">${icon('pencil')}</button>
       <button class="act-btn del" onclick="${delFn}">${icon('trash-2')}</button>
     </div>
   </div>`;
 }
- 
+
 function statCardHTML(data, type) {
   let T = 0, F = 0;
-  data.filter(x => x.type === type).forEach(x => {
-    x.p === 'T' ? (type === 'dep' ? T += x.v : T++) : (type === 'dep' ? F += x.v : F++);
-  });
+  data.filter(x => x.type === type).forEach(x => { x.p==='T' ? (type==='dep'?T+=x.v:T++) : (type==='dep'?F+=x.v:F++); });
   const total = T + F || 1;
-  const pT = Math.round(T / total * 100);
-  const pF = 100 - pT;
+  const pT = Math.round(T / total * 100), pF = 100 - pT;
   const fmt = v => type === 'dep' ? `${v.toFixed(2)} €` : `${v}`;
-  const icon_svg = type === 'dep' ? icon('credit-card') : icon('check-square');
-  const label = type === 'dep' ? 'Dépenses' : 'Tâches';
-  return `
-  <div class="stat-card">
-    <div class="stat-card-label">${icon_svg} ${label}</div>
-    <div class="stat-row">
-      <div class="stat-dot" style="background:var(--T)"></div>
-      <div class="stat-name" style="color:var(--T)">T</div>
-      <div class="stat-val" style="color:var(--T)">${fmt(T)}</div>
-      <div class="stat-pct">${pT}%</div>
-    </div>
-    <div class="stat-row">
-      <div class="stat-dot" style="background:var(--F)"></div>
-      <div class="stat-name" style="color:var(--F)">F</div>
-      <div class="stat-val" style="color:var(--F)">${fmt(F)}</div>
-      <div class="stat-pct">${pF}%</div>
-    </div>
-    <div class="unified-bar">
-      <div class="bar-T" style="width:${pT}%"></div>
-      <div class="bar-F" style="width:${pF}%"></div>
-    </div>
+  const ic = type === 'dep' ? icon('credit-card') : icon('check-square');
+  return `<div class="stat-card">
+    <div class="stat-card-label">${ic} ${type==='dep'?'Dépenses':'Tâches'}</div>
+    <div class="stat-row"><div class="stat-dot" style="background:var(--T)"></div><div class="stat-name" style="color:var(--T)">T</div><div class="stat-val" style="color:var(--T)">${fmt(T)}</div><div class="stat-pct">${pT}%</div></div>
+    <div class="stat-row"><div class="stat-dot" style="background:var(--F)"></div><div class="stat-name" style="color:var(--F)">F</div><div class="stat-val" style="color:var(--F)">${fmt(F)}</div><div class="stat-pct">${pF}%</div></div>
+    <div class="unified-bar"><div class="bar-T" style="width:${pT}%"></div><div class="bar-F" style="width:${pF}%"></div></div>
   </div>`;
 }
- 
+
 // ── RENDER ──
-function render() {
-  ['dep','tac','stats'].forEach(t => document.getElementById('nt-'+t)?.classList.remove('active'));
-  document.getElementById('nt-' + current)?.classList.add('active');
- 
-  const db = get();
-  const rules = getRules();
+function renderDateStrip() {
+  const strip = document.getElementById('date-strip');
+  if (current === 'stats') { strip.style.display = 'none'; return; }
+  strip.style.display = '';
   const { day, num, month } = heroDate(selectedDate);
-  const tabLabel = current === 'dep' ? 'Dépenses' : current === 'tac' ? 'Tâches' : 'Statistiques';
- 
-  let html = `
-  <div class="hero">
-    <div class="hero-eyebrow" style="display:flex;justify-content:space-between;align-items:center">
-      <span>Mon appli de suivi · ${tabLabel}</span>
-      <button onclick="logout()" style="background:none;border:none;cursor:pointer;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.5px;font-family:'Nunito',sans-serif">Déconnexion</button>
-    </div>
-    <div class="hero-date">
-      <span class="day-italic">${day}</span>
-      <span class="month-year">${num} ${month}</span>
-    </div>
-    <div class="hero-nav">
-      <button class="hnav-btn" onclick="changeDay(-1)">←</button>
-      <button class="hnav-btn" onclick="changeDay(1)">→</button>
-      ${!isToday(selectedDate) ? `<button class="today-chip" onclick="goToday()">Aujourd'hui</button>` : ''}
-    </div>
-  </div>`;
- 
+  document.getElementById('date-strip').innerHTML = `
+    <button class="hnav-btn" onclick="changeDay(-1)">←</button>
+    <div class="date-strip-label"><span>${day}</span>${num} ${month}</div>
+    <button class="hnav-btn" onclick="changeDay(1)">→</button>
+    ${!isToday(selectedDate) ? `<button class="today-chip" onclick="goToday()">Auj.</button>` : ''}`;
+}
+
+function renderFormFooter() {
+  const ff = document.getElementById('form-footer');
+  if (current === 'stats') { ff.style.display = 'none'; return; }
+  ff.style.display = '';
   if (current === 'dep') {
-    html += `
-    <div class="person-wrap">
+    ff.innerHTML = `
       <div class="person-toggle">
         <button class="person-btn ${currentPerson==='T'?'activeT':''}" onclick="selectPerson('T')">T</button>
         <button class="person-btn ${currentPerson==='F'?'activeF':''}" onclick="selectPerson('F')">F</button>
       </div>
-    </div>
-    <div class="section">
-      <div class="input-card">
-        <div class="field"><label>Montant (€)</label><input id="v" type="number" placeholder="0.00" step="0.01" min="0" inputmode="decimal"></div>
-        <div class="field"><label>Motif</label><input id="m" placeholder="Courses, restaurant…"></div>
-        <button class="add-btn add-btn-${currentPerson}" onclick="add('dep')">+ Ajouter</button>
+      <div class="form-card">
+        <div class="form-row">
+          <div class="form-field"><label>Montant (€)</label><input id="v" type="number" placeholder="0.00" step="0.01" min="0" inputmode="decimal"></div>
+          <div class="form-field"><label>Motif</label><input id="m" placeholder="Courses, restaurant…"></div>
+        </div>
+        <button class="add-btn add-btn-${currentPerson}" style="width:100%;margin-top:10px" onclick="add('dep')">+ Ajouter une dépense</button>
       </div>`;
- 
-    const entries = db.filter(x => x.date === selectedDate && x.type === 'dep').sort((a,b) => b.id - a.id);
-    html += `<div class="entries-header"><div class="entries-title">Ce jour</div><div class="entries-count">${entries.length}</div></div>`;
-    html += entries.length === 0 ? `<div class="empty">Rien pour ce jour</div>` : entries.map(entryHTML).join('');
-    html += `</div>`;
-  }
- 
-  if (current === 'tac') {
-    html += `
-    <div class="person-wrap">
+  } else {
+    ff.innerHTML = `
       <div class="person-toggle">
         <button class="person-btn ${currentPerson==='T'?'activeT':''}" onclick="selectPerson('T')">T</button>
         <button class="person-btn ${currentPerson==='F'?'activeF':''}" onclick="selectPerson('F')">F</button>
       </div>
-    </div>
-    <div class="section">
-      <div class="input-card">
-        <div class="field"><label>Tâche ponctuelle</label><input id="v" placeholder="Cuisine, lessive…"></div>
+      <div class="form-card">
+        <div class="form-field" style="margin-bottom:10px"><label>Tâche</label><input id="v" placeholder="Cuisine, lessive…"></div>
         <div style="display:flex;gap:8px">
           <button class="add-btn add-btn-${currentPerson}" style="flex:1" onclick="add('tac')">+ Ponctuelle</button>
           <button class="add-btn-rec-open" onclick="openAddRec()">↻ Récurrente</button>
         </div>
       </div>`;
- 
-    // Entries: manual + recurring
+  }
+}
+
+function renderScrollArea() {
+  const db = get(); const rules = getRules();
+  const sa = document.getElementById('scroll-area');
+  let html = '';
+
+  if (current === 'dep') {
+    const entries = db.filter(x => x.date === selectedDate && x.type === 'dep').sort((a,b) => b.id - a.id);
+    html += `<div class="entries-header"><div class="entries-title">Ce jour</div><div class="entries-count">${entries.length}</div></div>`;
+    html += entries.length === 0 ? `<div class="empty">Rien pour ce jour</div>` : entries.map(entryHTML).join('');
+  }
+
+  if (current === 'tac') {
     const manual = db.filter(x => x.date === selectedDate && x.type === 'tac').sort((a,b) => b.id - a.id);
     const recurring = getRecurringEntriesForDate(selectedDate);
     const all = [...recurring, ...manual];
- 
     html += `<div class="entries-header"><div class="entries-title">Ce jour</div><div class="entries-count">${all.length}</div></div>`;
     html += all.length === 0 ? `<div class="empty">Rien pour ce jour</div>` : all.map(entryHTML).join('');
- 
-    // Recurring rules list
     if (rules.length > 0) {
-      html += `<div class="entries-header" style="margin-top:20px"><div class="entries-title">Récurrences actives</div><div class="entries-count">${rules.length}</div></div>`;
+      html += `<div class="entries-header" style="margin-top:18px"><div class="entries-title">Récurrences actives</div><div class="entries-count">${rules.length}</div></div>`;
       rules.forEach(rule => {
         const isT = rule.p === 'T';
-        html += `
-        <div class="rec-rule-item">
-          <div class="entry-pip ${isT ? 'pipT' : 'pipF'}" style="flex-shrink:0"></div>
-          <div class="entry-body">
-            <div class="entry-main">${rule.label}</div>
-            <div class="entry-sub">${freqLabel(rule)} · depuis ${rule.startDate}</div>
-          </div>
+        html += `<div class="rec-rule-item">
+          <div class="entry-pip ${isT?'pipT':'pipF'}"></div>
+          <div class="entry-body"><div class="entry-main">${rule.label}</div><div class="entry-sub">${freqLabel(rule)}</div></div>
           <button class="act-btn" onclick="openEditRecRule(${rule.id})">${icon('pencil')}</button>
         </div>`;
       });
     }
-    html += `</div>`;
   }
- 
+
   if (current === 'stats') {
     const isDay = statView === 'day';
-    const manualData = isDay
-      ? db.filter(x => x.date === selectedDate)
-      : db.filter(x => x.date.startsWith(selectedMonth));
- 
-    // Add recurring tasks to stats
+    const manualData = isDay ? db.filter(x => x.date === selectedDate) : db.filter(x => x.date.startsWith(selectedMonth));
     let recData = [];
-    if (isDay) {
-      recData = getRecurringEntriesForDate(selectedDate);
-    } else {
-      // Generate recurring for each day of the month
+    if (isDay) { recData = getRecurringEntriesForDate(selectedDate); }
+    else {
       const [y, m2] = selectedMonth.split('-').map(Number);
-      const daysInMonth = new Date(y, m2, 0).getDate();
-      for (let d = 1; d <= daysInMonth; d++) {
-        const ds = `${selectedMonth}-${String(d).padStart(2,'0')}`;
-        recData.push(...getRecurringEntriesForDate(ds));
-      }
+      const dim = new Date(y, m2, 0).getDate();
+      for (let d = 1; d <= dim; d++) recData.push(...getRecurringEntriesForDate(`${selectedMonth}-${String(d).padStart(2,'0')}`));
     }
     const allData = [...manualData, ...recData];
- 
-    html += `
-    <div class="stats-wrap">
+    html += `<div class="stats-wrap">
       <div class="stat-view-toggle">
-        <button class="sv-btn ${isDay ? 'active' : ''}" onclick="setStatView('day')">Jour</button>
-        <button class="sv-btn ${!isDay ? 'active' : ''}" onclick="setStatView('month')">Mois</button>
+        <button class="sv-btn ${isDay?'active':''}" onclick="setStatView('day')">Jour</button>
+        <button class="sv-btn ${!isDay?'active':''}" onclick="setStatView('month')">Mois</button>
       </div>
       <div class="stat-nav">
-        <button class="hnav-btn" onclick="${isDay ? 'changeDay(-1)' : 'changeMonth(-1)'}">←</button>
-        <div class="stat-nav-label">${isDay ? fullDayLabel(selectedDate) : heroMonth(selectedMonth)}</div>
-        <button class="hnav-btn" onclick="${isDay ? 'changeDay(1)' : 'changeMonth(1)'}">→</button>
+        <button class="hnav-btn" onclick="${isDay?'changeDay(-1)':'changeMonth(-1)'}">←</button>
+        <div class="stat-nav-label">${isDay?fullDayLabel(selectedDate):heroMonth(selectedMonth)}</div>
+        <button class="hnav-btn" onclick="${isDay?'changeDay(1)':'changeMonth(1)'}">→</button>
       </div>
-      ${statCardHTML(allData, 'dep')}
-      ${statCardHTML(allData, 'tac')}
+      ${statCardHTML(allData,'dep')}
+      ${statCardHTML(allData,'tac')}
     </div>`;
   }
- 
-  document.getElementById('app').innerHTML = html;
-  setTimeout(() => document.getElementById('v')?.focus(), 80);
+
+  sa.innerHTML = html;
 }
- 
+
+function askLogout() {
+  const existing = document.getElementById('edit-overlay');
+  if (existing) existing.remove();
+  const ov = document.createElement('div');
+  ov.className = 'overlay'; ov.id = 'edit-overlay';
+  ov.innerHTML = `<div class="overlay-sheet">
+    <div class="sheet-handle"></div>
+    <div class="overlay-title">Se déconnecter ?</div>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:18px">Tu devras te reconnecter la prochaine fois.</p>
+    <div class="overlay-btns">
+      <button class="ov-cancel" onclick="closeEdit()">Annuler</button>
+      <button class="ov-save" onclick="logout()">Déconnexion</button>
+    </div>
+  </div>`;
+  ov.addEventListener('click', e => { if (e.target === ov) closeEdit(); });
+  document.body.appendChild(ov);
+}
+
+function renderNav() {
+  document.getElementById('top-nav').innerHTML = `
+    <button class="tab-btn ${current==='dep'?'active':''}" id="nt-dep" onclick="tab('dep')">
+      <span class="icon">${icon('credit-card')}</span><span class="lbl">Dépenses</span>
+    </button>
+    <button class="tab-btn ${current==='tac'?'active':''}" id="nt-tac" onclick="tab('tac')">
+      <span class="icon">${icon('check-square')}</span><span class="lbl">Tâches</span>
+    </button>
+    <button class="tab-btn ${current==='stats'?'active':''}" id="nt-stats" onclick="tab('stats')">
+      <span class="icon">${icon('bar-chart-2')}</span><span class="lbl">Stats</span>
+    </button>`;
+}
+
+function render() {
+  renderNav();
+  renderDateStrip();
+  renderFormFooter();
+  renderScrollArea();
+}
+
 // ── INIT ──
 if (loggedIn) {
   document.getElementById('login-wrap').style.display = 'none';
-  document.getElementById('app').style.display = '';
-  document.querySelector('.bottom-nav').style.display = '';
+  document.getElementById('top-nav').style.display = '';
+  document.getElementById('main-wrap').style.display = '';
+  document.getElementById('logout-fab').style.display = '';
   render();
 } else {
   document.getElementById('login-wrap').style.display = '';
+  document.getElementById('logout-fab').style.display = 'none';
   setTimeout(() => document.getElementById('lu')?.focus(), 100);
 }
 </script>
