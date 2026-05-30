@@ -945,6 +945,75 @@ function renderScrollArea() {
     const entries = db.filter(x => x.date === selectedDate && x.type === 'dep').sort((a,b) => b.id - a.id);
     html += `<div class="entries-header"><div class="entries-title">Ce jour</div><div class="entries-count">${entries.length}</div></div>`;
     html += entries.length === 0 ? `<div class="empty">Rien pour ce jour</div>` : entries.map(entryHTML).join('');
+
+    // ── Récap du mois ──
+    const currentMonth = selectedDate.slice(0, 7);
+    const monthEntries = db.filter(x => x.date.startsWith(currentMonth) && x.type === 'dep');
+    const totalMonth = monthEntries.reduce((s, x) => s + x.v, 0);
+    const totalT = monthEntries.filter(x => x.p === 'T').reduce((s, x) => s + x.v, 0);
+    const totalF = monthEntries.filter(x => x.p === 'F').reduce((s, x) => s + x.v, 0);
+
+    // Sort for month detail
+    let sortedMonth = [...monthEntries];
+    if (depSort === 'date')   sortedMonth.sort((a,b) => a.date.localeCompare(b.date));
+    if (depSort === 'amount') sortedMonth.sort((a,b) => b.v - a.v);
+    if (depSort === 'person') sortedMonth.sort((a,b) => a.p.localeCompare(b.p));
+
+    const monthLabel = new Date(currentMonth + '-01T12:00:00').toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+    const monthCap = monthLabel.charAt(0).toUpperCase() + monthLabel.slice(1);
+
+    const sortBtns = [
+      { k:'date', l:'Date' },
+      { k:'amount', l:'Montant' },
+      { k:'person', l:'T / F' },
+    ].map(s => `<button onclick="setDepSort('${s.k}')" style="
+      padding:5px 10px;border-radius:8px;border:1.5px solid var(--border);
+      background:${depSort===s.k?'var(--text)':'var(--surface2)'};
+      color:${depSort===s.k?'#fff':'var(--muted)'};
+      font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s">${s.l}</button>`).join('');
+
+    const chevron = depDetailOpen
+      ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;pointer-events:none"><polyline points="18 15 12 9 6 15"/></svg>`
+      : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;pointer-events:none"><polyline points="6 9 12 15 18 9"/></svg>`;
+
+    const detailRows = sortedMonth.map(x => {
+      const isT = x.p === 'T';
+      return `<div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)">
+        <div style="width:7px;height:7px;border-radius:50%;background:var(--${isT?'T':'F'});flex-shrink:0"></div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${x.m||'Sans motif'}</div>
+          <div style="font-size:11px;color:var(--muted)">${x.date} · ${isT?'T':'F'}</div>
+        </div>
+        <div style="font-family:'Fraunces',serif;font-size:14px;font-weight:700;color:var(--${isT?'T':'F'});flex-shrink:0">${x.v.toFixed(2)} €</div>
+      </div>`;
+    }).join('');
+
+    html += `
+    <div class="entries-header" style="margin-top:20px">
+      <div class="entries-title">${monthCap}</div>
+      <div class="entries-count">${monthEntries.length}</div>
+    </div>
+    <div class="stat-card" style="cursor:pointer" onclick="toggleDepDetail()">
+      <div class="stat-card-label" style="justify-content:space-between">
+        <span>Total du mois</span>
+        <span style="display:flex;align-items:center;gap:6px">
+          <span style="font-family:'Fraunces',serif;font-size:16px;font-weight:700;color:var(--text)">${totalMonth.toFixed(2)} €</span>
+          <span style="color:var(--muted)">${chevron}</span>
+        </span>
+      </div>
+      <div style="display:flex;gap:16px;margin-top:4px">
+        <span style="font-size:13px;color:var(--T);font-weight:600">T : ${totalT.toFixed(2)} €</span>
+        <span style="font-size:13px;color:var(--F);font-weight:600">F : ${totalF.toFixed(2)} €</span>
+      </div>
+      ${depDetailOpen ? `
+        <div style="border-top:1.5px solid var(--border);margin-top:14px;padding-top:12px" onclick="event.stopPropagation()">
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">${sortBtns}</div>
+          ${sortedMonth.length === 0
+            ? `<div style="text-align:center;color:var(--muted2);padding:16px 0;font-style:italic;font-family:'Fraunces',serif">Aucune dépense ce mois</div>`
+            : detailRows}
+          <div style="font-size:11px;color:var(--muted);text-align:right;padding-top:8px">${sortedMonth.length} entrée(s)</div>
+        </div>` : ''}
+    </div>`;
   }
 
   if (current === 'tac') {
